@@ -27,7 +27,7 @@
             </div>
             <div class="d-flex align-items-center contact-row">
               <i class="fa fa-envelope contact-icon"></i>
-              <a class="contact-link" href="mailto:sales@chromezy.com">sales@chromezy.com</a>
+              <a class="contact-link" href="mailto:sales@chromezy.com">Dwelio</a>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@
       <div class="row py-3 items-center">
         <div class="col-md-8 col-12 copyright">
           Copyright © 2025 &nbsp; | &nbsp; Dbnk Designs, All Rights Reserved &nbsp; | &nbsp;
-          <a class="designer-link" href="#">Designed by Debasish Naik</a>
+          <a class="designer-link" href="#">Designed by WeWebWizards</a>
         </div>
 
         <div class="col-md-4 col-12 text-md-right mt-2 mt-md-0">

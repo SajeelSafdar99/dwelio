@@ -376,15 +376,15 @@
     <section class="success-stories" ref="target4">
       <div class="container">
         <div class="stories-content">
-          <div class="row q-col-gutter-xl">
-            <div class="col-lg-4 col-md-6 col-sm-12">
+          <div class="row q-col-gutter-lg">
+            <div class="col-lg-4 col-md-6 col-12">
               <h1 class="display-3 text-white">SUCCESS<br />STORIES</h1>
               <p class="text-white">
                 Dummy ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et
                 velit interdum, ac aliquet odio mattis.
               </p>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-6 col-12">
               <div class="card-container position-relative">
                 <img :src="storiesImages[0]" alt="FinConnect CRM Interface" class="card-image" />
                 <span class="success-badge">Success Stories</span>
@@ -399,7 +399,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-6 col-12">
               <div class="card-container position-relative">
                 <img :src="storiesImages[1]" alt="FinConnect CRM Interface" class="card-image" />
                 <span class="success-badge">Success Stories</span>
@@ -414,7 +414,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-6 col-12">
               <div class="card-container position-relative">
                 <img :src="storiesImages[2]" alt="FinConnect CRM Interface" class="card-image" />
                 <span class="success-badge">Success Stories</span>
@@ -429,7 +429,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-6 col-12">
               <div class="card-container position-relative">
                 <img :src="storiesImages[3]" alt="FinConnect CRM Interface" class="card-image" />
                 <span class="success-badge">Success Stories</span>
@@ -444,7 +444,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-6 col-12">
               <div class="card-container position-relative">
                 <img :src="storiesImages[4]" alt="FinConnect CRM Interface" class="card-image" />
                 <span class="success-badge">Success Stories</span>
@@ -565,16 +565,16 @@
                     <h3 class="category-title">Data & Cloud</h3>
                   </div>
                   <div class="tech-chips">
-                    <q-chip class="tech-chip" icon="fa-solid fa-cloud azure-icon">Azure</q-chip>
-                    <q-chip class="tech-chip" icon="fa-brands fa-aws aws-icon">AWS</q-chip>
-                    <q-chip class="tech-chip" icon="fa-brands fa-docker docker-icon">Docker</q-chip>
-                    <q-chip class="tech-chip" icon="fa-brands fa-kubernetes k8s-icon"
+                    <q-chip class="tech-chip azure-chip" icon="fa-solid fa-cloud azure-icon">Azure</q-chip>
+                    <q-chip class="tech-chip aws-chip" icon="fa-brands fa-aws aws-icon">AWS</q-chip>
+                    <q-chip class="tech-chip docker-chip" icon="fa-brands fa-docker docker-icon">Docker</q-chip>
+                    <q-chip class="tech-chip k8s-chip" icon="fa-brands fa-kubernetes k8s-icon"
                     >Kubernetes
                     </q-chip>
-                    <q-chip class="tech-chip" icon="fa-brands fa-google gcp-icon"
+                    <q-chip class="tech-chip gcp-chip" icon="fa-brands fa-google gcp-icon"
                     >Google Cloud
                     </q-chip>
-                    <q-chip class="tech-chip" icon="fa-solid fa-brain krutrim-icon"
+                    <q-chip class="tech-chip krutrim-chip" icon="fa-solid fa-brain krutrim-icon"
                     >Ola Krutrim
                     </q-chip>
                   </div>
@@ -684,12 +684,11 @@
     <!-- Contact Us-->
     <section class="contact-wrapper" ref="target7">
       <div class="split-section container">
-        <img src="../assets/contact us/mail-icon.png" alt="decor" class="corner-img" />
 
         <!-- Left Side (Image) -->
         <div class="image-side d-flex align-items-center justify-content-center">
           <div class="contact-box">
-            <img src="../assets/contact us/2.png" alt="Contact Illustration" class="contact-img" />
+            <img src="../assets/contact us/2.png" alt="Contact Illustration" class="contact-img"   ref="avatarImg" />
 
             <h2>CONTACT US</h2>
             <p>Talk with us to know how we can make you a part of a thriving digital landscape</p>
@@ -716,7 +715,14 @@
 
         <!-- Right Side (Color + Overlap) -->
         <div class="color-side d-flex align-items-center">
-          <div class="form-box">
+          <div class="form-box" ref="formBox" style="position: relative;">
+            <img
+              src="../assets/contact us/mail-icon.png"
+              alt="decor"
+              class="corner-img"
+              ref="mailIcon"
+              style="position: absolute;"
+            />
             <h3 class="form-title">Let’s Talk!</h3>
 
             <div class="form-input">
@@ -759,7 +765,7 @@
 
 <script setup>
 import { gsap } from 'gsap'
-import { onMounted, onUnmounted, ref, nextTick } from 'vue'
+import { onMounted, onUnmounted, ref, nextTick, shallowRef } from 'vue'
 import Lenis from '@studio-freight/lenis'
 import ChromezyFooter from '../components/ChromezyFooter.vue'
 
@@ -769,66 +775,159 @@ const mvpLogos = import.meta.glob('/src/assets/mvp logos/*.{png,jpg,jpeg,svg}', 
 const mvpImages = Object.values(mvpLogos).map((module) => module.default)
 const testLogos = import.meta.glob('/src/assets/test logos/*.{png,jpg,jpeg,svg}', { eager: true })
 const testImages = Object.values(testLogos).map((module) => module.default)
-const heroSection = ref(null)
-const target1 = ref(null)
-const target2 = ref(null)
-const target3 = ref(null)
-const target4 = ref(null)
-const target5 = ref(null)
-const target6 = ref(null)
-const target7 = ref(null)
-const footerTarget = ref(null)
 
-const floatingImageConfigs = {
-  image1: {
-    heroSection: { right: '20px', top: '180px', scale: 1, opacity: 1, rotation: 0, visible: true, blur: '0px' },
-    target1: { top: '400px', right: '250px', scale: 1, opacity: 1, rotation: 0, visible: true, blur: '0px' },
-    target2: { right: '210px', top: '365px', scale: 2.1, opacity: 1, rotation: 0, visible: true, blur: '0px' },
-    target3: { right: '55px', top: '-160px', scale: 1.2, opacity: 1, rotation: 0, visible: true, blur: '12px' },
-    target4: { right: '218px', top: '182px', scale: 1.7, opacity: 1, rotation: 0, visible: true, blur: '15px' },
-    target5: { right: '200px', top: '350px', scale: 1.8, opacity: 0.6, rotation: 0, visible: true, blur: '35px' },
-    target6: { right: '575px', top: '560px', scale: 1, opacity: 1, rotation: 0, visible: true, blur: '20px' },
-    target7: { left: '250px', top: '250px', scale: 1, opacity: 1, rotation: 0, visible: true, blur: '0px' },
-    footerTarget: { left: '220px', top: '320px', scale: 1.1, opacity: 0.4, rotation: 10, visible: false, blur: '1px' }
-  },
+const heroSection = shallowRef(null)
+const target1 = shallowRef(null)
+const target2 = shallowRef(null)
+const target3 = shallowRef(null)
+const target4 = shallowRef(null)
+const target5 = shallowRef(null)
+const target6 = shallowRef(null)
+const target7 = shallowRef(null)
+const footerTarget = shallowRef(null)
+const mailIcon = shallowRef(null)
+const avatarImg = shallowRef(null)
+const formBox = shallowRef(null)
 
-  image2: {
-    heroSection: { left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0.5px' },
-    target1: { top: '600px', right: '210px', scale: 2.1, opacity: 1, rotation: 0, visible: true, blur: '6px' },
-    target2: { right: '210px', top: '-300px', scale: 1, opacity: 0.6, rotation: 25, visible: true, blur: '0.5px' },
-    target3: { left: '0px', top: '0px', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '2px' },
-    target4: { left: '0px', top: '0px', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0px' },
-    target5: { left: '180px', top: '400px', scale: 0, opacity: 0, rotation: 0, visible: true, blur: '3px' },
-    target6: { left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0px' },
-    target7: { left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '1px' },
-    footerTarget: { left: '160px', top: '180px', scale: 1.1, opacity: 0.7, rotation: -5, visible: false, blur: '2px' }
-  },
-  image3: {
-    heroSection: { left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0.5px' },
-    target1: { left: '320px', top: '180px', scale: 0.9, opacity: 0.7, rotation: -15, visible: false, blur: '1px' },
-    target2: { left: '180px', top: '350px', scale: 1.2, opacity: 0.8, rotation: 10, visible: false, blur: '2px' },
-    target3: { left: '250px', top: '120px', scale: 1, opacity: 0.5, rotation: 0, visible: false, blur: '0px' },
-    target4: { left: '0px', top: '0px', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0px' },
-    target5: { left: '-900px', top: '-280px', scale: 0.4, opacity: 1, rotation: 0, visible: true, blur: '0px' },
-    target6: { left: '-1090px', top: '-450px', scale: 0.4, opacity: 1, rotation: -80, visible: true, blur: '0px' },
-    target7: { left: '-800px', top: '-1030px', scale: 0.3, opacity: 1, rotation: 0, visible: true, blur: '0px' },
-    footerTarget: { left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '1px' }
-  },
-  image4: {
-    heroSection: { left: '-350px', top: '170px', right:'auto', scale: 1, opacity: 1, rotation: 0, visible: true, blur: '12px' },
-    target1: { left: '-250px', top: '0px', scale: 0.6, opacity: 1, rotation: 0, visible: true, blur: '8px' },
-    target2: { left: '-270px', top: '45px', scale: 0.3, opacity: 1, rotation: 0, visible: true, blur: '60px' },
-    target3: { left: '-300px', top: '230px', scale: 0.8, opacity: 1, rotation: 0, visible: true, blur: '15px' },
-    target4: { left: '-400px', top: '150px', scale: 1.4, opacity: 1, rotation: 0, visible: true, blur: '15px' },
-    target5: { left: '-400px', top: '100px', scale: 1, opacity: 0, rotation: 0, visible: true, blur: '15px' },
-    target6: { left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0px' },
-    target7: { left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '8px' },
-    footerTarget: { left: '250px', top: '160px', scale: 1.1, opacity: 0.7, rotation: 5, visible: false, blur: '12px' }
+const floatingImageConfigs = Object.freeze({
+  image1: Object.freeze({
+    heroSection: Object.freeze({ right: '0', top: '150px', scale: 1.2, opacity: 1, rotation: 0, visible: true, blur: '0px' }),
+    target1: Object.freeze({ top: '400px', right: '250px', scale: 1, opacity: 1, rotation: 0, visible: true, blur: '0px' }),
+    target2: Object.freeze({ right: '210px', top: '365px', scale: 2.1, opacity: 1, rotation: 0, visible: true, blur: '0px' }),
+    target3: Object.freeze({ right: '55px', top: '-160px', scale: 1.2, opacity: 1, rotation: 0, visible: true, blur: '12px' }),
+    target4: Object.freeze({ right: '218px', top: '182px', scale: 1.7, opacity: 1, rotation: 0, visible: true, blur: '15px' }),
+    target5: Object.freeze({ right: '200px', top: '350px', scale: 1.8, opacity: 0.6, rotation: 0, visible: true, blur: '35px' }),
+    target6: Object.freeze({ right: '575px', top: '560px', scale: 1, opacity: 1, rotation: 0, visible: true, blur: '20px' }),
+    target7: Object.freeze({ right: '800px', top: '350px', scale: 1.5, opacity: 1, rotation: 0, visible: true, blur: '40px' }),
+    footerTarget: Object.freeze({ right: '800px', top: '350px', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0px' })
+
+  }),
+  image2: Object.freeze({
+    heroSection: Object.freeze({ top: '1300px', right: '210px', scale: 2.1, opacity: 0, rotation: 0, visible: true, blur: '6px' }),
+    target1: Object.freeze({ top: '600px', right: '210px', scale: 2.1, opacity: 1, rotation: 0, visible: true, blur: '6px' }),
+    target2: Object.freeze({ right: '210px', top: '-300px', scale: 1, opacity: 0.6, rotation: 25, visible: true, blur: '0.5px' }),
+    target3: Object.freeze({ left: '0px', top: '0px', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '2px' }),
+    target4: Object.freeze({ left: '0px', top: '0px', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0px' }),
+    target5: Object.freeze({ left: '180px', top: '400px', scale: 0, opacity: 0, rotation: 0, visible: true, blur: '3px' }),
+    target6: Object.freeze({ left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0px' }),
+    target7: Object.freeze({ left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '1px' }),
+    footerTarget: Object.freeze({ left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0px' })
+  }),
+  image3: Object.freeze({
+    heroSection: Object.freeze({ left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0.5px' }),
+    target1: Object.freeze({ left: '320px', top: '180px', scale: 0.9, opacity: 0.7, rotation: -15, visible: false, blur: '1px' }),
+    target2: Object.freeze({ left: '180px', top: '350px', scale: 1.2, opacity: 0.8, rotation: 10, visible: false, blur: '2px' }),
+    target3: Object.freeze({ left: '250px', top: '120px', scale: 1, opacity: 0.5, rotation: 0, visible: false, blur: '0px' }),
+    target4: Object.freeze({ left: '-900px', top: '300px', scale: 0.3, opacity: 0, rotation: -60, visible: true, blur: '0px' }),
+    target5: Object.freeze({ left: '-900px', top: '-280px', scale: 0.4, opacity: 1, rotation: 0, visible: true, blur: '0px' }),
+    target6: Object.freeze({ left: '-1090px', top: '-450px', scale: 0.4, opacity: 1, rotation: -80, visible: true, blur: '0px' }),
+    target7: Object.freeze({ left: '-800px', top: '-1110px', scale: 0.3, opacity: 1, rotation: 0, visible: true, blur: '0px' }),
+    footerTarget: Object.freeze({ left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '1px' })
+  }),
+  image4: Object.freeze({
+    heroSection: Object.freeze({ left: '-350px', top: '170px', scale: 1, opacity: 1, rotation: 0, visible: true, blur: '12px' }),
+    target1: Object.freeze({ left: '-250px', top: '0px', scale: 0.6, opacity: 1, rotation: 0, visible: true, blur: '8px' }),
+    target2: Object.freeze({ left: '-270px', top: '45px', scale: 0.3, opacity: 1, rotation: 0, visible: true, blur: '60px' }),
+    target3: Object.freeze({ left: '-300px', top: '230px', scale: 0.8, opacity: 1, rotation: 0, visible: true, blur: '15px' }),
+    target4: Object.freeze({ left: '-400px', top: '150px', scale: 1.4, opacity: 1, rotation: 0, visible: true, blur: '15px' }),
+    target5: Object.freeze({ left: '-400px', top: '100px', scale: 1, opacity: 0, rotation: 0, visible: true, blur: '15px' }),
+    target6: Object.freeze({ left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0px' }),
+    target7: Object.freeze({ left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '8px' }),
+    footerTarget: Object.freeze({ left: '0', top: '0', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '12px' })
+  })
+})
+
+const contactSectionConfig = Object.freeze({
+  target6: Object.freeze({
+    marginTopIcon: '100px',
+    mailIconScale: 1.7,
+    mailIconOpacity: 1,
+    avatarScale: 0.2,
+    avatarOpacity: 0.7,
+    mailIconRight: '75px',
+    formBoxMargin: '0px 55px 0px 0px',
+    mailIconTop: '-50px',
+    formBoxOverflow: 'visible',
+    formBoxClipPath: 'inset(-10%)',
+  }),
+  target7: Object.freeze({
+    mailIconScale: 1,
+    mailIconOpacity: 1,
+    avatarScale: 1,
+    avatarOpacity: 1,
+    formBoxMargin: '50px 0px 50px -100px',
+    mailIconTop: '-30px',
+    mailIconRight: '-30px',
+    formBoxOverflow: 'visible',
+    formBoxClipPath: 'inset(0% 0% 0% 0%)',
+  })
+})
+
+const animateContactSection = (targetName) => {
+  const config = contactSectionConfig[targetName]
+  if (!config) return
+
+  const contactWrapper = target7.value?.$el || target7.value
+  if (contactWrapper) {
+    gsap.to(contactWrapper, {
+      marginTop: config.marginTop,
+      duration: 1.2,
+      ease: "power2.inOut",
+      force3D: true
+    })
+  }
+
+  if (mailIcon.value) {
+    gsap.to(mailIcon.value, {
+      scale: config.mailIconScale,
+      opacity: config.mailIconOpacity,
+      top: config.mailIconTop,
+      right: config.mailIconRight,
+      duration: 1.2,
+      ease: "power2.inOut",
+      force3D: true
+    })
+  }
+
+  if (avatarImg.value) {
+    gsap.to(avatarImg.value, {
+      scale: config.avatarScale,
+      opacity: config.avatarOpacity,
+      right: config.avatarRight,
+      duration: 1.2,
+      ease: "power2.inOut",
+      force3D: true
+    })
+  }
+
+  if (formBox.value) {
+    formBox.value.style.overflow = 'hidden'
+    gsap.to(formBox.value, {
+      overflow: config.formBoxOverflow,
+      margin: config.formBoxMargin,
+      clipPath: config.formBoxClipPath,
+      duration: 1.2,
+      ease: "power2.inOut"
+    })
   }
 }
 
-const floatingImageRefs = ref([])
-const floatingImageSources = ref([])
+const animateCarousel = (targetName, direction) => {
+  if (!carouselContainer.value) return
+
+  if (targetName === 'target3' && direction === 'down') {
+    nextSlide()
+  } else if (targetName === 'target2' && direction === 'up') {
+    previousSlide()
+  } else if (targetName === 'target4' && direction === 'down') {
+    previousSlide()
+  } else if (targetName === 'target3' && direction === 'up') {
+    nextSlide()
+  }
+}
+
+const floatingImageRefs = shallowRef([])
+const floatingImageSources = shallowRef([])
 
 const animateFloatingImagesToTarget = (targetName) => {
   Object.keys(floatingImageConfigs).forEach((imageKey, index) => {
@@ -838,48 +937,37 @@ const animateFloatingImagesToTarget = (targetName) => {
     const imageWrapperRef = floatingImageRefs.value[index]
     if (!imageWrapperRef) return
 
-    // --- 1. Read current computed position
-    const rect = imageWrapperRef.getBoundingClientRect()
-    const parentRect = imageWrapperRef.offsetParent
-      ? imageWrapperRef.offsetParent.getBoundingClientRect()
-      : { left: 0, top: 0 }
-
-    const currentLeft = rect.left - parentRect.left
-    const currentTop = rect.top - parentRect.top
-
-    // --- 2. Target position from config
-    let targetLeft = config.left !== undefined ? parseFloat(config.left) : currentLeft
-    let targetTop = config.top !== undefined ? parseFloat(config.top) : currentTop
-    let targetRight = config.right !== undefined ? parseFloat(config.right) : null
-    let targetBottom = config.bottom !== undefined ? parseFloat(config.bottom) : null
-
-    // Handle right/bottom if used
-    if (targetRight !== null) {
-      targetLeft = window.innerWidth - targetRight - rect.width
-    }
-    if (targetBottom !== null) {
-      targetTop = window.innerHeight - targetBottom - rect.height
-    }
-
-    // --- 3. Compute deltas
-    const deltaX = targetLeft - currentLeft
-    const deltaY = targetTop - currentTop
-
-    // --- 4. Animate with GSAP (using transforms only)
-    gsap.to(imageWrapperRef, {
-      x: `+=${deltaX}`,   // move relative to current
-      y: `+=${deltaY}`,
+    const animationProps = {
       scale: config.scale,
       rotation: config.rotation,
       opacity: config.visible ? config.opacity : 0,
       duration: 1.2,
       ease: "power2.inOut",
+      force3D: true,
       onComplete: () => {
         imageWrapperRef.style.display = config.visible ? 'block' : 'none'
       }
-    })
+    }
 
-    // --- 5. Animate blur on <img>
+    if (config.left !== undefined) {
+      animationProps.left = config.left
+      imageWrapperRef.style.right = 'auto'
+    }
+    if (config.right !== undefined) {
+      animationProps.right = config.right
+      imageWrapperRef.style.left = 'auto'
+    }
+    if (config.top !== undefined) {
+      animationProps.top = config.top
+      imageWrapperRef.style.bottom = 'auto'
+    }
+    if (config.bottom !== undefined) {
+      animationProps.bottom = config.bottom
+      imageWrapperRef.style.top = 'auto'
+    }
+
+    gsap.to(imageWrapperRef, animationProps)
+
     const imgElement = imageWrapperRef.querySelector('img')
     if (imgElement && config.blur !== undefined) {
       gsap.to(imgElement, {
@@ -891,9 +979,6 @@ const animateFloatingImagesToTarget = (targetName) => {
   })
 }
 
-
-
-
 const objLogos = import.meta.glob('/src/assets/objects/*.{png,jpg,jpeg,svg}', { eager: true })
 const floatingImages = Object.values(objLogos).map((module) => module.default)
 const revenueCounter = ref(0)
@@ -904,13 +989,11 @@ const hasAnimated = ref(false)
 
 const storiesLogo = import.meta.glob('/src/assets/stories/*.{png,jpg,jpeg,svg}', { eager: true })
 const storiesImages = Object.values(storiesLogo).map((module) => module.default)
-const insightLogo = import.meta.glob('/src/assets/feature insights/*.{png,jpg,jpeg,svg}', {
-  eager: true,
-})
+const insightLogo = import.meta.glob('/src/assets/feature insights/*.{png,jpg,jpeg,svg}', { eager: true })
 const insightImages = Object.values(insightLogo).map((module) => module.default)
 const scrollPosition = ref(0)
-const carouselContainer = ref(null)
-const testimonialsTrack = ref(null)
+const carouselContainer = shallowRef(null)
+const testimonialsTrack = shallowRef(null)
 const currentSlide = ref(0)
 const totalSlides = 4
 const innovativeImage = '/src/assets/1.png'
@@ -919,52 +1002,37 @@ const animateCounters = () => {
   if (hasAnimated.value) return
   hasAnimated.value = true
 
-  // Animate revenue counter to 200
-  const revenueAnimation = setInterval(() => {
-    if (revenueCounter.value < 200) {
-      revenueCounter.value += 4
+  const startTime = performance.now()
+
+  const animate = (currentTime) => {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / 2000, 1)
+
+    revenueCounter.value = Math.floor(progress * 200)
+    speedCounter.value = Math.floor(progress * 4)
+    ordersCounter.value = Math.floor(progress * 73)
+    usersCounter.value = Math.floor(progress * 10000)
+
+    if (progress < 1) {
+      requestAnimationFrame(animate)
     } else {
       revenueCounter.value = 200
-      clearInterval(revenueAnimation)
-    }
-  }, 20)
-
-  // Animate speed counter to 4
-  const speedAnimation = setInterval(() => {
-    if (speedCounter.value < 4) {
-      speedCounter.value += 1
-    } else {
       speedCounter.value = 4
-      clearInterval(speedAnimation)
-    }
-  }, 100)
-
-  // Animate orders counter to 73
-  const ordersAnimation = setInterval(() => {
-    if (ordersCounter.value < 73) {
-      ordersCounter.value += 2
-    } else {
       ordersCounter.value = 73
-      clearInterval(ordersAnimation)
-    }
-  }, 25)
-
-  // Animate users counter to 10000
-  const usersAnimation = setInterval(() => {
-    if (usersCounter.value < 10000) {
-      usersCounter.value += 200
-    } else {
       usersCounter.value = 10000
-      clearInterval(usersAnimation)
     }
-  }, 15)
+  }
+
+  requestAnimationFrame(animate)
 }
+
+let statsObserver = null
 
 const observeStatsSection = () => {
   const statsSection = document.querySelector('.stats-section')
   if (!statsSection) return
 
-  const observer = new IntersectionObserver(
+  statsObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !hasAnimated.value) {
@@ -972,10 +1040,10 @@ const observeStatsSection = () => {
         }
       })
     },
-    { threshold: 0.5 },
+    { threshold: 0.5 }
   )
 
-  observer.observe(statsSection)
+  statsObserver.observe(statsSection)
 }
 
 const nextSlide = () => {
@@ -983,20 +1051,26 @@ const nextSlide = () => {
 
   const containerWidth = carouselContainer.value.offsetWidth
 
-  // Check if we're in mobile view (width <= 992px)
   if (window.innerWidth <= 992) {
     if (currentSlide.value < totalSlides - 1) {
       currentSlide.value++
-      // Account for the card width (25%) plus any margin/spacing
-      scrollPosition.value = currentSlide.value * (containerWidth * 1)
+      gsap.to(scrollPosition, {
+        value: currentSlide.value * (containerWidth * 1),
+        duration: 0.5,
+        ease: "power2.inOut"
+      })
     }
   } else {
-    // Desktop: existing behavior
     const scrollAmount = containerWidth * 0.23
     const maxScroll = containerWidth * 0.23
 
     if (scrollPosition.value < maxScroll) {
-      scrollPosition.value = Math.min(scrollPosition.value + scrollAmount, maxScroll)
+      const newPosition = Math.min(scrollPosition.value + scrollAmount, maxScroll)
+      gsap.to(scrollPosition, {
+        value: newPosition,
+        duration: 0.5,
+        ease: "power2.inOut"
+      })
     }
   }
 }
@@ -1006,26 +1080,37 @@ const previousSlide = () => {
 
   const containerWidth = carouselContainer.value.offsetWidth
 
-  // Check if we're in mobile view (width <= 992px)
   if (window.innerWidth <= 992) {
     if (currentSlide.value > 0) {
       currentSlide.value--
-      // Account for the card width (25%) plus any margin/spacing
-      scrollPosition.value = currentSlide.value * (containerWidth * 1)
+      gsap.to(scrollPosition, {
+        value: currentSlide.value * (containerWidth * 1),
+        duration: 0.5,
+        ease: "power2.inOut"
+      })
     }
   } else {
-    // Desktop: existing behavior
     const scrollAmount = containerWidth * 0.23
 
     if (scrollPosition.value > 0) {
-      scrollPosition.value = Math.max(scrollPosition.value - scrollAmount, 0)
+      const newPosition = Math.max(scrollPosition.value - scrollAmount, 0)
+      gsap.to(scrollPosition, {
+        value: newPosition,
+        duration: 0.5,
+        ease: "power2.inOut"
+      })
     }
   }
 }
+
 let lenisInstance = null
 let rafId = null
 let jumpedOnce = false
 let currentTargetIndex = 0
+let isScrolling = false
+let canScroll = true
+const SECTION_WAIT_TIME = 800
+
 const targets = [
   'heroSection',
   'target1',
@@ -1050,21 +1135,15 @@ const targetOffsets = {
   footerTarget: -80,
 }
 
-let isScrolling = false
-
 onMounted(() => {
-  // 1. Populate sources and refs
   floatingImageSources.value = floatingImages
   floatingImageRefs.value = Array(floatingImages.length).fill(null)
 
-  // 2. Wait until DOM has rendered
   nextTick(() => {
-    // --- Set initial positions instantly ---
     floatingImageRefs.value.forEach((el, index) => {
       const config = floatingImageConfigs[`image${index+1}`]?.heroSection
       if (!config || !el) return
 
-      // Raw CSS positioning
       if (config.left !== undefined) {
         el.style.left = config.left
         el.style.right = 'auto'
@@ -1076,11 +1155,12 @@ onMounted(() => {
       if (config.top !== undefined) el.style.top = config.top
       if (config.bottom !== undefined) el.style.bottom = config.bottom
 
-      // Transform/opacity/etc
       gsap.set(el, {
-        opacity: config.opacity,
         scale: config.scale,
         rotation: config.rotation,
+        opacity: config.opacity,
+        x: 0,
+        y: 0,
       })
 
       const imgElement = el.querySelector('img')
@@ -1091,7 +1171,6 @@ onMounted(() => {
       el.style.display = config.visible ? 'block' : 'none'
     })
 
-    // 3. Setup Lenis
     const containerEl = document.querySelector('.home-page')
     if (!containerEl) return
 
@@ -1116,12 +1195,8 @@ onMounted(() => {
       observeStatsSection()
     }, 100)
 
-    const sectionEl =
-      (heroSection?.value && (heroSection.value.$el || heroSection.value)) ||
-      document.querySelector('.hero-section')
-
     const performJump = (direction = 'down') => {
-      if (isScrolling) return
+      if (isScrolling || !canScroll) return
 
       if (direction === 'down' && currentTargetIndex < targets.length - 1) {
         currentTargetIndex++
@@ -1150,7 +1225,11 @@ onMounted(() => {
       if (!targetEl) return
 
       isScrolling = true
+      canScroll = false
+
       animateFloatingImagesToTarget(targetName)
+      animateContactSection(targetName)
+      animateCarousel(targetName, direction)
 
       const targetOffset = targetOffsets[targetName] || -100
 
@@ -1161,12 +1240,18 @@ onMounted(() => {
           lock: true,
           onComplete: () => {
             isScrolling = false
+            setTimeout(() => {
+              canScroll = true
+            }, SECTION_WAIT_TIME)
           },
         })
       } else {
         targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
         setTimeout(() => {
           isScrolling = false
+          setTimeout(() => {
+            canScroll = true
+          }, SECTION_WAIT_TIME)
         }, 1050)
       }
     }
@@ -1174,7 +1259,8 @@ onMounted(() => {
     const onWheel = (e) => {
       e.preventDefault()
       e.stopPropagation()
-      if (isScrolling) return
+
+      if (!canScroll || isScrolling) return
 
       if (!jumpedOnce && e.deltaY > 0) {
         jumpedOnce = true
@@ -1191,7 +1277,8 @@ onMounted(() => {
     }
 
     const onTouchMove = (e) => {
-      if (isScrolling) return
+      if (isScrolling || !canScroll) return
+
       const touchDelta = touchStartY - e.touches[0].clientY
 
       if (!jumpedOnce && touchDelta > 10) {
@@ -1199,35 +1286,43 @@ onMounted(() => {
         e.stopPropagation()
         jumpedOnce = true
         performJump('down')
-      } else if (jumpedOnce) {
-        if (Math.abs(touchDelta) > 10) {
-          e.preventDefault()
-          e.stopPropagation()
-          if (touchDelta > 0) performJump('down')
-          else performJump('up')
-        }
-      }
-    }
-
-    sectionEl?.addEventListener('wheel', onWheel, { passive: false, capture: true })
-    sectionEl?.addEventListener('touchstart', onTouchStart, { passive: true, capture: true })
-    sectionEl?.addEventListener('touchmove', onTouchMove, { passive: false, capture: true })
-
-    const globalWheelHandler = (e) => {
-      if (jumpedOnce && !isScrolling) {
+      } else if (jumpedOnce && Math.abs(touchDelta) > 10) {
         e.preventDefault()
-        if (e.deltaY > 0) performJump('down')
-        else if (e.deltaY < 0) performJump('up')
+        e.stopPropagation()
+        if (touchDelta > 0) performJump('down')
+        else performJump('up')
       }
     }
 
-    document.addEventListener('wheel', globalWheelHandler, { passive: false })
+    document.addEventListener('wheel', onWheel, { passive: false })
+    document.addEventListener('touchstart', onTouchStart, { passive: true })
+    document.addEventListener('touchmove', onTouchMove, { passive: false })
+
+    if (mailIcon.value) {
+      gsap.set(mailIcon.value, {
+        scale: contactSectionConfig.target6.mailIconScale,
+        opacity: contactSectionConfig.target6.mailIconOpacity,
+        top: contactSectionConfig.target6.mailIconTop,
+        right: contactSectionConfig.target6.mailIconRight
+      })
+    }
+
+    if (formBox.value) {
+      formBox.value.style.position = 'relative'
+      formBox.value.style.overflow = contactSectionConfig.target6.formBoxOverflow
+      gsap.set(formBox.value, {
+        margin: contactSectionConfig.target6.formBoxMargin
+      })
+    }
 
     onUnmounted(() => {
-      sectionEl?.removeEventListener('wheel', onWheel, true)
-      sectionEl?.removeEventListener('touchstart', onTouchStart, true)
-      sectionEl?.removeEventListener('touchmove', onTouchMove, true)
-      document.removeEventListener('wheel', globalWheelHandler)
+      document.removeEventListener('wheel', onWheel)
+      document.removeEventListener('touchstart', onTouchStart)
+      document.removeEventListener('touchmove', onTouchMove)
+      if (statsObserver) {
+        statsObserver.disconnect()
+        statsObserver = null
+      }
       if (rafId !== null) {
         cancelAnimationFrame(rafId)
         rafId = null
@@ -1237,30 +1332,9 @@ onMounted(() => {
         lenisInstance = null
       }
     })
-
-    // 4. Kick off the initial animation
-    setTimeout(() => {
-      animateFloatingImagesToTarget('heroSection')
-    }, 300)
   })
 })
-
-onMounted(() => {
-  const handleResize = () => {
-    scrollPosition.value = 0
-    currentSlide.value = 0
-  }
-
-  window.addEventListener('resize', handleResize)
-
-  // Cleanup
-  return () => {
-    window.removeEventListener('resize', handleResize)
-  }
-})
-
 </script>
-
 <style scoped>
 .dashed-separator {
   border-top: 1px dashed rgba(255, 255, 255, 0.2) !important;
@@ -1288,13 +1362,13 @@ onMounted(() => {
 .hero-section::before {
   content: '';
   position: absolute;
-  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  inset: 0;
   background-image: url(/src/assets/Serction-Hero.png?t=1758745798359);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(90px); /* adjust blur strength */
-  z-index: -1; /* keep behind content */
+  filter: blur(90px);
+  z-index: -1;
 }
 
 .hero-content {
@@ -2333,7 +2407,9 @@ onMounted(() => {
 
 
 .contact-wrapper {
-  min-height: 83vh;
+  min-height: 91vh;
+  display: flex;
+  align-items: center;
 }
 .contact-wrapper::before {
   content: "";
@@ -2470,9 +2546,15 @@ onMounted(() => {
   width: 100%;
   max-width: 450px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  margin: 50px 0px 50px -100px; /* overlap on desktop */
 }
-
+@media (max-width: 991px) {
+  .form-box {
+    margin: 0px !important;
+  }
+  .contact-wrapper{
+    margin: 30px 0px;
+  }
+}
 .form-title {
   font-size: 1.5rem;
   font-weight: 700;
@@ -2524,20 +2606,9 @@ onMounted(() => {
 
   }
 }
-
-/* Updated floating images styles */
 .floating-image-wrapper {
   will-change: transform, opacity;
   backface-visibility: hidden;
 }
-
-.floating-image {
-  display: block;
-}
-.floating-image4-4{
-  mix-blend-mode: plus-lighter;
-  filter: blur(12px);
-}
-/* Individual styling for each floating image */
 
 </style>

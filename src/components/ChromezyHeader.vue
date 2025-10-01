@@ -9,7 +9,7 @@
                 :src="logo"
                 alt="Chromezy Logo"
                 class="logo-image"
-                width="135px"
+                width="65px"
                 fit="contain"
                 no-spinner
                 loading="lazy"
