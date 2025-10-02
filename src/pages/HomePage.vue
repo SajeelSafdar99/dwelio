@@ -480,7 +480,7 @@
                 </div>
                 <div class="tech-shape-container">
                   <q-img
-                    :src="innovativeImage"
+                    src="../assets/1.png"
                     alt="3D Abstract Shape"
                     class="tech-3d-shape"
                     fit="cover"
@@ -765,9 +765,12 @@
 
 <script setup>
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { onMounted, onUnmounted, ref, nextTick, shallowRef } from 'vue'
 import Lenis from '@studio-freight/lenis'
 import ChromezyFooter from '../components/ChromezyFooter.vue'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const logos = import.meta.glob('/src/assets/hero logos/*.{png,jpg,jpeg,svg}', { eager: true })
 const logoImages = Object.values(logos).map((module) => module.default)
@@ -800,7 +803,6 @@ const floatingImageConfigs = Object.freeze({
     target6: Object.freeze({ right: '575px', top: '560px', scale: 1, opacity: 1, rotation: 0, visible: true, blur: '20px' }),
     target7: Object.freeze({ right: '800px', top: '350px', scale: 1.5, opacity: 1, rotation: 0, visible: true, blur: '40px' }),
     footerTarget: Object.freeze({ right: '800px', top: '350px', scale: 0, opacity: 0, rotation: 0, visible: false, blur: '0px' })
-
   }),
   image2: Object.freeze({
     heroSection: Object.freeze({ top: '1300px', right: '210px', scale: 2.1, opacity: 0, rotation: 0, visible: true, blur: '6px' }),
@@ -838,9 +840,20 @@ const floatingImageConfigs = Object.freeze({
 })
 
 const contactSectionConfig = Object.freeze({
+  target5: Object.freeze({
+    mailIconScale: 1.5,
+    mailIconOpacity: 0,
+    avatarScale: 0.2,
+    avatarOpacity: 0,
+    mailIconRight: '75px',
+    formBoxMargin: '0px 55px 0px 0px',
+    mailIconTop: '-50px',
+    formBoxOverflow: 'hidden',
+    formBoxClipPath: 'inset(100%)',
+  }),
   target6: Object.freeze({
     marginTopIcon: '100px',
-    mailIconScale: 1.7,
+    mailIconScale: 1.5,
     mailIconOpacity: 1,
     avatarScale: 0.2,
     avatarOpacity: 0.7,
@@ -863,121 +876,8 @@ const contactSectionConfig = Object.freeze({
   })
 })
 
-const animateContactSection = (targetName) => {
-  const config = contactSectionConfig[targetName]
-  if (!config) return
-
-  const contactWrapper = target7.value?.$el || target7.value
-  if (contactWrapper) {
-    gsap.to(contactWrapper, {
-      marginTop: config.marginTop,
-      duration: 1.2,
-      ease: "power2.inOut",
-      force3D: true
-    })
-  }
-
-  if (mailIcon.value) {
-    gsap.to(mailIcon.value, {
-      scale: config.mailIconScale,
-      opacity: config.mailIconOpacity,
-      top: config.mailIconTop,
-      right: config.mailIconRight,
-      duration: 1.2,
-      ease: "power2.inOut",
-      force3D: true
-    })
-  }
-
-  if (avatarImg.value) {
-    gsap.to(avatarImg.value, {
-      scale: config.avatarScale,
-      opacity: config.avatarOpacity,
-      right: config.avatarRight,
-      duration: 1.2,
-      ease: "power2.inOut",
-      force3D: true
-    })
-  }
-
-  if (formBox.value) {
-    formBox.value.style.overflow = 'hidden'
-    gsap.to(formBox.value, {
-      overflow: config.formBoxOverflow,
-      margin: config.formBoxMargin,
-      clipPath: config.formBoxClipPath,
-      duration: 1.2,
-      ease: "power2.inOut"
-    })
-  }
-}
-
-const animateCarousel = (targetName, direction) => {
-  if (!carouselContainer.value) return
-
-  if (targetName === 'target3' && direction === 'down') {
-    nextSlide()
-  } else if (targetName === 'target2' && direction === 'up') {
-    previousSlide()
-  } else if (targetName === 'target4' && direction === 'down') {
-    previousSlide()
-  } else if (targetName === 'target3' && direction === 'up') {
-    nextSlide()
-  }
-}
-
 const floatingImageRefs = shallowRef([])
 const floatingImageSources = shallowRef([])
-
-const animateFloatingImagesToTarget = (targetName) => {
-  Object.keys(floatingImageConfigs).forEach((imageKey, index) => {
-    const config = floatingImageConfigs[imageKey][targetName]
-    if (!config) return
-
-    const imageWrapperRef = floatingImageRefs.value[index]
-    if (!imageWrapperRef) return
-
-    const animationProps = {
-      scale: config.scale,
-      rotation: config.rotation,
-      opacity: config.visible ? config.opacity : 0,
-      duration: 1.2,
-      ease: "power2.inOut",
-      force3D: true,
-      onComplete: () => {
-        imageWrapperRef.style.display = config.visible ? 'block' : 'none'
-      }
-    }
-
-    if (config.left !== undefined) {
-      animationProps.left = config.left
-      imageWrapperRef.style.right = 'auto'
-    }
-    if (config.right !== undefined) {
-      animationProps.right = config.right
-      imageWrapperRef.style.left = 'auto'
-    }
-    if (config.top !== undefined) {
-      animationProps.top = config.top
-      imageWrapperRef.style.bottom = 'auto'
-    }
-    if (config.bottom !== undefined) {
-      animationProps.bottom = config.bottom
-      imageWrapperRef.style.top = 'auto'
-    }
-
-    gsap.to(imageWrapperRef, animationProps)
-
-    const imgElement = imageWrapperRef.querySelector('img')
-    if (imgElement && config.blur !== undefined) {
-      gsap.to(imgElement, {
-        filter: `blur(${config.blur})`,
-        duration: 1.2,
-        ease: "power2.inOut"
-      })
-    }
-  })
-}
 
 const objLogos = import.meta.glob('/src/assets/objects/*.{png,jpg,jpeg,svg}', { eager: true })
 const floatingImages = Object.values(objLogos).map((module) => module.default)
@@ -996,7 +896,6 @@ const carouselContainer = shallowRef(null)
 const testimonialsTrack = shallowRef(null)
 const currentSlide = ref(0)
 const totalSlides = 4
-const innovativeImage = '/src/assets/1.png'
 
 const animateCounters = () => {
   if (hasAnimated.value) return
@@ -1048,7 +947,6 @@ const observeStatsSection = () => {
 
 const nextSlide = () => {
   if (!carouselContainer.value) return
-
   const containerWidth = carouselContainer.value.offsetWidth
 
   if (window.innerWidth <= 992) {
@@ -1061,9 +959,8 @@ const nextSlide = () => {
       })
     }
   } else {
-    const scrollAmount = containerWidth * 0.23
-    const maxScroll = containerWidth * 0.23
-
+    const scrollAmount = containerWidth * 0.25
+    const maxScroll = containerWidth * 0.25
     if (scrollPosition.value < maxScroll) {
       const newPosition = Math.min(scrollPosition.value + scrollAmount, maxScroll)
       gsap.to(scrollPosition, {
@@ -1077,7 +974,6 @@ const nextSlide = () => {
 
 const previousSlide = () => {
   if (!carouselContainer.value) return
-
   const containerWidth = carouselContainer.value.offsetWidth
 
   if (window.innerWidth <= 992) {
@@ -1091,7 +987,6 @@ const previousSlide = () => {
     }
   } else {
     const scrollAmount = containerWidth * 0.23
-
     if (scrollPosition.value > 0) {
       const newPosition = Math.max(scrollPosition.value - scrollAmount, 0)
       gsap.to(scrollPosition, {
@@ -1104,35 +999,220 @@ const previousSlide = () => {
 }
 
 let lenisInstance = null
-let rafId = null
-let jumpedOnce = false
-let currentTargetIndex = 0
-let isScrolling = false
-let canScroll = true
-const SECTION_WAIT_TIME = 800
+let lastTargetName = null
+let lastContactTarget = null
 
-const targets = [
-  'heroSection',
-  'target1',
-  'target2',
-  'target3',
-  'target4',
-  'target5',
-  'target6',
-  'target7',
-  'footerTarget',
-]
+const animateFloatingImagesToTarget = (targetName) => {
+  if (lastTargetName === targetName) return
 
-const targetOffsets = {
-  heroSection: 0,
-  target1: -90,
-  target2: -70,
-  target3: -100,
-  target4: -120,
-  target5: -100,
-  target6: -120,
-  target7: -100,
-  footerTarget: -80,
+  lastTargetName = targetName
+
+  Object.keys(floatingImageConfigs).forEach((imageKey, index) => {
+    const config = floatingImageConfigs[imageKey][targetName]
+    if (!config) return
+
+    const imageWrapperRef = floatingImageRefs.value[index]
+    if (!imageWrapperRef) return
+
+    gsap.killTweensOf(imageWrapperRef)
+    const imgElement = imageWrapperRef.querySelector('img')
+    if (imgElement) gsap.killTweensOf(imgElement)
+
+    if (config.left !== undefined) {
+      gsap.set(imageWrapperRef, { right: 'auto' })
+    } else if (config.right !== undefined) {
+      gsap.set(imageWrapperRef, { left: 'auto' })
+    }
+
+    if (config.top !== undefined) {
+      gsap.set(imageWrapperRef, { bottom: 'auto' })
+    } else if (config.bottom !== undefined) {
+      gsap.set(imageWrapperRef, { top: 'auto' })
+    }
+
+    const animationProps = {
+      scale: config.scale,
+      rotation: config.rotation,
+      opacity: config.visible ? config.opacity : 0,
+      duration: 0.8,
+      ease: "power2.inOut",
+      force3D: true,
+      immediateRender: false,
+      overwrite: 'auto',
+      onComplete: () => {
+        imageWrapperRef.style.display = config.visible ? 'block' : 'none'
+      }
+    }
+
+    if (config.left !== undefined) animationProps.left = config.left
+    if (config.right !== undefined) animationProps.right = config.right
+    if (config.top !== undefined) animationProps.top = config.top
+    if (config.bottom !== undefined) animationProps.bottom = config.bottom
+
+    gsap.to(imageWrapperRef, animationProps)
+
+    if (imgElement && config.blur !== undefined) {
+      gsap.to(imgElement, {
+        filter: `blur(${config.blur})`,
+        duration: 0.8,
+        ease: "power2.inOut",
+        immediateRender: false
+      })
+    }
+  })
+}
+
+const animateContactSection = (targetName) => {
+  if (lastContactTarget === targetName) return
+
+  lastContactTarget = targetName
+
+  const config = contactSectionConfig[targetName]
+  if (!config) return
+
+  const contactWrapper = target7.value?.$el || target7.value
+  if (contactWrapper) {
+    gsap.to(contactWrapper, {
+      marginTop: config.marginTop,
+      duration: 0.6,
+      ease: "power2.inOut",
+      force3D: true,
+      overwrite: 'auto'
+    })
+  }
+
+  if (mailIcon.value) {
+    gsap.to(mailIcon.value, {
+      scale: config.mailIconScale,
+      opacity: config.mailIconOpacity,
+      top: config.mailIconTop,
+      right: config.mailIconRight,
+      duration: 0.6,
+      ease: "power2.inOut",
+      force3D: true,
+      overwrite: 'auto'
+    })
+  }
+
+  if (avatarImg.value) {
+    gsap.to(avatarImg.value, {
+      scale: config.avatarScale,
+      opacity: config.avatarOpacity,
+      right: config.avatarRight,
+      duration: 0.6,
+      ease: "power2.inOut",
+      force3D: true,
+      overwrite: 'auto'
+    })
+  }
+
+  if (formBox.value) {
+    gsap.to(formBox.value, {
+      margin: config.formBoxMargin,
+      clipPath: config.formBoxClipPath,
+      duration: 0.6,
+      ease: "power2.inOut",
+      overwrite: 'auto'
+    })
+  }
+}
+
+const setupScrollTriggers = () => {
+  const sections = [
+    { name: 'heroSection', ref: heroSection },
+    { name: 'target1', ref: target1 },
+    { name: 'target2', ref: target2 },
+    { name: 'target3', ref: target3 },
+    { name: 'target4', ref: target4 },
+    { name: 'target5', ref: target5 },
+    { name: 'target6', ref: target6 },
+    { name: 'target7', ref: target7 },
+    { name: 'footerTarget', ref: footerTarget }
+  ]
+
+  const sectionOrder = sections.map(s => s.name)
+
+  sections.forEach((section, index) => {
+    const sectionEl = section.ref.value?.$el || section.ref.value
+    if (!sectionEl) return
+
+    ScrollTrigger.create({
+      trigger: sectionEl,
+      start: 'top center',
+      end: 'bottom center',
+      onEnter: () => {
+        const currentIndex = sectionOrder.indexOf(lastTargetName)
+        if (currentIndex === -1 || index > currentIndex) {
+          animateFloatingImagesToTarget(section.name)
+        }
+      },
+      onEnterBack: () => {
+        const currentIndex = sectionOrder.indexOf(lastTargetName)
+        if (currentIndex === -1 || index < currentIndex) {
+          animateFloatingImagesToTarget(section.name)
+        }
+      },
+      onLeaveBack: () => {
+        if (index > 0) {
+          const previousSection = sections[index - 1]
+          const currentIndex = sectionOrder.indexOf(lastTargetName)
+          const previousIndex = index - 1
+          if (currentIndex === -1 || previousIndex < currentIndex) {
+            animateFloatingImagesToTarget(previousSection.name)
+          }
+        }
+      }
+    })
+
+    if (section.name === 'target5' || section.name === 'target6' || section.name === 'target7') {
+      ScrollTrigger.create({
+        trigger: sectionEl,
+        start: 'top center',
+        end: 'bottom center',
+        onEnter: () => {
+          const currentIndex = sectionOrder.indexOf(lastContactTarget)
+          if (currentIndex === -1 || index > currentIndex) {
+            animateContactSection(section.name)
+          }
+        },
+        onEnterBack: () => {
+          const currentIndex = sectionOrder.indexOf(lastContactTarget)
+          if (currentIndex === -1 || index < currentIndex) {
+            animateContactSection(section.name)
+          }
+        },
+        onLeaveBack: () => {
+          if (index > 0) {
+            const previousSection = sections[index - 1]
+            const currentIndex = sectionOrder.indexOf(lastContactTarget)
+            const previousIndex = index - 1
+            if (previousSection.name === 'target5' || previousSection.name === 'target6' || previousSection.name === 'target7') {
+              if (currentIndex === -1 || previousIndex < currentIndex) {
+                animateContactSection(previousSection.name)
+              }
+            }
+          }
+        }
+      })
+    }
+
+    if (section.name === 'target3') {
+      ScrollTrigger.create({
+        trigger: sectionEl,
+        start: 'top 70%',
+        onEnter: () => nextSlide(),
+        onLeaveBack: () => previousSlide()
+      })
+    }
+    if (section.name === 'target4') {
+      ScrollTrigger.create({
+        trigger: sectionEl,
+        start: 'top 70%',
+        onEnter: () => previousSlide(),
+        onLeaveBack: () => nextSlide()
+      })
+    }
+  })
 }
 
 onMounted(() => {
@@ -1171,168 +1251,72 @@ onMounted(() => {
       el.style.display = config.visible ? 'block' : 'none'
     })
 
-    const containerEl = document.querySelector('.home-page')
-    if (!containerEl) return
-
     lenisInstance = new Lenis({
-      duration: 0.4,
-      easing: (t) => t,
+      duration: 1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 1.15,
-      smoothTouch: true,
-      touchMultiplier: 1.15,
+      wheelMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false
     })
 
-    const rafLoop = (time) => {
-      lenisInstance?.raf(time)
-      rafId = requestAnimationFrame(rafLoop)
-    }
-    rafId = requestAnimationFrame(rafLoop)
+    gsap.ticker.add((time) => {
+      lenisInstance.raf(time * 1000)
+    })
 
-    jumpedOnce = false
+    lenisInstance.on('scroll', ScrollTrigger.update)
+
+    setTimeout(() => {
+      ScrollTrigger.refresh()
+    }, 100)
+
+    setupScrollTriggers()
 
     setTimeout(() => {
       observeStatsSection()
     }, 100)
 
-    const performJump = (direction = 'down') => {
-      if (isScrolling || !canScroll) return
-
-      if (direction === 'down' && currentTargetIndex < targets.length - 1) {
-        currentTargetIndex++
-      } else if (direction === 'up' && currentTargetIndex > 0) {
-        currentTargetIndex--
-      } else {
-        return
-      }
-
-      const targetName = targets[currentTargetIndex]
-      let targetEl = null
-
-      if (targetName === 'heroSection') {
-        targetEl =
-          (heroSection?.value && (heroSection.value.$el || heroSection.value)) ||
-          document.querySelector('.hero-section')
-      } else if (targetName === 'footerTarget') {
-        targetEl =
-          (footerTarget?.value && (footerTarget.value.$el || footerTarget.value)) ||
-          document.querySelector('.footer-dark')
-      } else {
-        const targetRef = eval(targetName)
-        targetEl = (targetRef?.value && (targetRef.value.$el || targetRef.value)) || null
-      }
-
-      if (!targetEl) return
-
-      isScrolling = true
-      canScroll = false
-
-      animateFloatingImagesToTarget(targetName)
-      animateContactSection(targetName)
-      animateCarousel(targetName, direction)
-
-      const targetOffset = targetOffsets[targetName] || -100
-
-      if (lenisInstance) {
-        lenisInstance.scrollTo(targetEl, {
-          offset: targetOffset,
-          duration: 1.05,
-          lock: true,
-          onComplete: () => {
-            isScrolling = false
-            setTimeout(() => {
-              canScroll = true
-            }, SECTION_WAIT_TIME)
-          },
-        })
-      } else {
-        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        setTimeout(() => {
-          isScrolling = false
-          setTimeout(() => {
-            canScroll = true
-          }, SECTION_WAIT_TIME)
-        }, 1050)
-      }
-    }
-
-    const onWheel = (e) => {
-      e.preventDefault()
-      e.stopPropagation()
-
-      if (!canScroll || isScrolling) return
-
-      if (!jumpedOnce && e.deltaY > 0) {
-        jumpedOnce = true
-        performJump('down')
-      } else if (jumpedOnce) {
-        if (e.deltaY > 0) performJump('down')
-        else if (e.deltaY < 0) performJump('up')
-      }
-    }
-
-    let touchStartY = 0
-    const onTouchStart = (e) => {
-      touchStartY = e.touches[0].clientY
-    }
-
-    const onTouchMove = (e) => {
-      if (isScrolling || !canScroll) return
-
-      const touchDelta = touchStartY - e.touches[0].clientY
-
-      if (!jumpedOnce && touchDelta > 10) {
-        e.preventDefault()
-        e.stopPropagation()
-        jumpedOnce = true
-        performJump('down')
-      } else if (jumpedOnce && Math.abs(touchDelta) > 10) {
-        e.preventDefault()
-        e.stopPropagation()
-        if (touchDelta > 0) performJump('down')
-        else performJump('up')
-      }
-    }
-
-    document.addEventListener('wheel', onWheel, { passive: false })
-    document.addEventListener('touchstart', onTouchStart, { passive: true })
-    document.addEventListener('touchmove', onTouchMove, { passive: false })
-
     if (mailIcon.value) {
       gsap.set(mailIcon.value, {
-        scale: contactSectionConfig.target6.mailIconScale,
-        opacity: contactSectionConfig.target6.mailIconOpacity,
-        top: contactSectionConfig.target6.mailIconTop,
-        right: contactSectionConfig.target6.mailIconRight
+        scale: 1.5,
+        opacity: 0,
+        top: '-50px',
+        right: '75px'
+      })
+    }
+
+    if (avatarImg.value) {
+      gsap.set(avatarImg.value, {
+        scale: 0.2,
+        opacity: 0
       })
     }
 
     if (formBox.value) {
       formBox.value.style.position = 'relative'
-      formBox.value.style.overflow = contactSectionConfig.target6.formBoxOverflow
+      formBox.value.style.overflow = 'hidden'
       gsap.set(formBox.value, {
-        margin: contactSectionConfig.target6.formBoxMargin
+        margin: '0px 55px 0px 0px',
+        clipPath: 'inset(100%)'
       })
     }
-
-    onUnmounted(() => {
-      document.removeEventListener('wheel', onWheel)
-      document.removeEventListener('touchstart', onTouchStart)
-      document.removeEventListener('touchmove', onTouchMove)
-      if (statsObserver) {
-        statsObserver.disconnect()
-        statsObserver = null
-      }
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-        rafId = null
-      }
-      if (lenisInstance) {
-        lenisInstance.destroy?.()
-        lenisInstance = null
-      }
-    })
   })
+})
+
+onUnmounted(() => {
+  if (statsObserver) {
+    statsObserver.disconnect()
+    statsObserver = null
+  }
+
+  if (lenisInstance) {
+    gsap.ticker.remove(lenisInstance.raf)
+    lenisInstance.destroy()
+    lenisInstance = null
+  }
+
+  ScrollTrigger.getAll().forEach(trigger => trigger.kill())
 })
 </script>
 <style scoped>
