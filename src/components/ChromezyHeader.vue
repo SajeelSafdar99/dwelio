@@ -1,5 +1,4 @@
 <template>
-<!--  <q-layout>-->
     <q-header class="header text-white" height-hint="64">
       <q-toolbar class="q-px-xl">
         <div class="flex items-center q-gutter-lg">
@@ -125,12 +124,15 @@
         </div>
       </q-slide-transition>
     </q-header>
-<!--  </q-layout>-->
 </template>
 
 <script setup>
 import logo from 'assets/logo.png'
-import {ref, onMounted, nextTick} from 'vue'
+import { ref, onMounted, nextTick, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
 
 const searchQuery = ref('')
 const activeIndex = ref(0)
@@ -139,20 +141,24 @@ const indicatorPosition = ref(0)
 const indicatorWidth = ref(0)
 
 const navItems = ref([
-  {name: 'Home'},
-  {name: 'Explore AI'},
-  {name: 'Services'},
-  {name: 'E-commerce'},
-  {name: 'Products'},
-  {name: 'Blogs'}
+  { name: 'Home', path: '/' },
+  { name: 'Testimonials', path: '/testimonials' },
+  { name: 'Virtual Assistance', path: '/virtual-assistance' },
+  { name: 'Services', path: '/services' },
+  { name: 'Real Estate', path: '/real-estate' },
+  { name: 'About Us', path: '/about' }
 ])
 
+// Navigate + update active indicator
 const setActiveItem = async (index) => {
   activeIndex.value = index
+  const path = navItems.value[index].path
+  router.push(path)
   await nextTick()
   updateIndicator()
 }
 
+// Indicator logic (unchanged)
 const updateIndicator = () => {
   const navItemsContainer = document.querySelector('.nav-items')
   const navItemContainers = document.querySelectorAll('.nav-item-container')
@@ -166,6 +172,19 @@ const updateIndicator = () => {
     indicatorWidth.value = activeRect.width
   }
 }
+
+// Sync the active tab with the current route
+watch(
+  () => route.path,
+  (newPath) => {
+    const foundIndex = navItems.value.findIndex(item => item.path === newPath)
+    if (foundIndex !== -1) {
+      activeIndex.value = foundIndex
+      nextTick(() => updateIndicator())
+    }
+  },
+  { immediate: true }
+)
 
 onMounted(() => {
   updateIndicator()

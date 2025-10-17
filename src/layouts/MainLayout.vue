@@ -6,16 +6,16 @@
       <router-view />
     </q-page-container>
 
-    <!-- Footer is now handled within the page component for proper scroll targeting -->
+    <ChromezyFooter />
   </q-layout>
 </template>
 
 <script setup>
 import ChromezyHeader from 'components/ChromezyHeader.vue'
+import ChromezyFooter from 'components/ChromezyFooter.vue'
 </script>
 
 <style scoped>
-/* Added layout fixes to prevent footer disappearing */
 .q-page-container {
   padding-bottom: 0 !important;
 }
