@@ -59,7 +59,7 @@
         </div>
         <q-space class="desktop-view"/>
         <div class="flex items-center desktop-view ">
-          <span class="cursor-pointer text-grey-4 hover:text-white transition-colors">About Us</span>
+          <span class="cursor-pointer text-grey-4 hover:text-white transition-colors" @click="$router.push('/about')">About Us</span>
           <q-btn
             label="Contact Us"
             color="blue-6"
@@ -112,7 +112,7 @@
               {{ item.name }}
             </div>
             <q-separator class="q-my-md" dark/>
-            <div class="text-grey-4 q-py-sm cursor-pointer">About Us</div>
+            <div class="text-grey-4 q-py-sm cursor-pointer"  @click="$router.push('/about')">About Us</div>
             <q-btn
               label="Contact Us"
               color="blue-6"
@@ -145,8 +145,8 @@ const navItems = ref([
   { name: 'Testimonials', path: '/testimonials' },
   { name: 'Virtual Assistance', path: '/virtual-assistance' },
   { name: 'Services', path: '/services' },
+  { name: 'Listing', path: '/listings' },
   { name: 'Real Estate', path: '/real-estate' },
-  { name: 'About Us', path: '/about' }
 ])
 
 // Navigate + update active indicator
@@ -181,11 +181,13 @@ watch(
     if (foundIndex !== -1) {
       activeIndex.value = foundIndex
       nextTick(() => updateIndicator())
+    } else {
+      activeIndex.value = -1
+      indicatorWidth.value = 0 // 👈 hide indicator
     }
   },
   { immediate: true }
 )
-
 onMounted(() => {
   updateIndicator()
   window.addEventListener('resize', updateIndicator)
