@@ -1,5 +1,5 @@
 <template>
-  <section class="why-choose-section">
+  <section class="why-choose-section" ref="target2">
    <div class="container">
      <div class="why-choose-container">
        <!-- LEFT SIDE -->
@@ -23,7 +23,7 @@
        <!-- RIGHT SIDE -->
        <div class="why-image-wrapper">
          <img
-           src="/src/assets/assistance/choose/1.png"
+           src="../../assets/assistance/choose/1.png"
            alt="Why Choose Us"
            class="why-image"
          />
@@ -34,12 +34,18 @@
 </template>
 
 <script setup>
+
+import { shallowRef } from 'vue'
 const points = [
   "AI Interview empowers easy, initial screening, precisely",
   "AI Interview helps in almost 60 to 70% time saving",
   "AI interview ensures fair interview experience with",
   "AI interview helps in reducing dependencies on",
 ]
+const target2 = shallowRef(null)
+defineExpose({
+  target2,
+})
 </script>
 
 <style scoped>

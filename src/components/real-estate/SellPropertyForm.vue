@@ -1,5 +1,5 @@
 <template>
-  <div class="sell-property-container">
+  <div class="sell-property-container" ref="target2">
     <div class="container">
       <!-- Header Section -->
       <div class="header-section mb-5">
@@ -10,7 +10,7 @@
       <!-- Form -->
       <form @submit.prevent="handleSubmit" class="property-form">
         <!-- Row 1: Personal Info -->
-        <div class="row q-col-gutter-md q-mb-lg ">
+        <div class="row q-col-gutter-md q-mb-lg">
           <div class="col-lg-3 col-md-6 col-sm-12">
             <label class="form-label">{{ formFields.firstName.label }}</label>
             <input
@@ -20,7 +20,7 @@
               :placeholder="formFields.firstName.placeholder"
             />
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-12 ">
+          <div class="col-lg-3 col-md-6 col-sm-12">
             <label class="form-label">{{ formFields.lastName.label }}</label>
             <input
               v-model="formData.lastName"
@@ -29,7 +29,7 @@
               :placeholder="formFields.lastName.placeholder"
             />
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-12 ">
+          <div class="col-lg-3 col-md-6 col-sm-12">
             <label class="form-label">{{ formFields.email.label }}</label>
             <input
               v-model="formData.email"
@@ -58,14 +58,14 @@
               <option v-for="loc in locations" :key="loc" :value="loc">{{ loc }}</option>
             </select>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-12 ">
+          <div class="col-lg-3 col-md-6 col-sm-12">
             <label class="form-label">{{ formFields.propertyType.label }}</label>
             <select v-model="formData.propertyType" class="form-select custom-select">
               <option value="">{{ formFields.propertyType.placeholder }}</option>
               <option v-for="type in propertyTypes" :key="type" :value="type">{{ type }}</option>
             </select>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-12 ">
+          <div class="col-lg-3 col-md-6 col-sm-12">
             <label class="form-label">{{ formFields.bathrooms.label }}</label>
             <select v-model="formData.bathrooms" class="form-select custom-select">
               <option value="">{{ formFields.bathrooms.placeholder }}</option>
@@ -88,7 +88,9 @@
             <label class="form-label">{{ formFields.budget.label }}</label>
             <select v-model="formData.budget" class="form-select custom-select">
               <option value="">{{ formFields.budget.placeholder }}</option>
-              <option v-for="budget in budgetOptions" :key="budget" :value="budget">{{ budget }}</option>
+              <option v-for="budget in budgetOptions" :key="budget" :value="budget">
+                {{ budget }}
+              </option>
             </select>
           </div>
 
@@ -97,7 +99,10 @@
             <label class="form-label">{{ formFields.contactMethod.label }}</label>
             <div class="row q-col-gutter-x-md">
               <div class="col-md-6 col-sm-6">
-                <label class="contact-option justify-between" :class="{ active: formData.contactMethod === 'phone' }">
+                <label
+                  class="contact-option justify-between"
+                  :class="{ active: formData.contactMethod === 'phone' }"
+                >
                   <div class="option-left">
                     <i class="fa-solid fa-phone icon"></i>
                     {{ formFields.contactMethod.phone }}
@@ -112,7 +117,10 @@
                 </label>
               </div>
               <div class="col-md-6 col-sm-6">
-                <label class="contact-option justify-between" :class="{ active: formData.contactMethod === 'email' }">
+                <label
+                  class="contact-option justify-between"
+                  :class="{ active: formData.contactMethod === 'email' }"
+                >
                   <div class="option-left">
                     <i class="fa-solid fa-envelope icon"></i>
                     {{ formFields.contactMethod.email }}
@@ -145,7 +153,7 @@
 
         <!-- Row 5: Terms & Submit -->
         <div class="flex justify-between">
-          <div class="terms-checkbox q-mb-lg ">
+          <div class="terms-checkbox q-mb-lg">
             <input
               v-model="formData.agreeTerms"
               type="checkbox"
@@ -168,14 +176,15 @@
   </div>
 </template>
 
-
-
 <script setup>
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 
+const target2 = shallowRef(null)
+defineExpose({ target2 })
 const formData = ref({
   title: 'Sell Your property',
-  description: 'Ready to take the first step toward Selling your property? Fill out the form below, and our real estate wizards will work their magic to find your perfect match. Don\'t wait, let\'s embark on this exciting journey together.',
+  description:
+    "Ready to take the first step toward Selling your property? Fill out the form below, and our real estate wizards will work their magic to find your perfect match. Don't wait, let's embark on this exciting journey together.",
   firstName: '',
   lastName: '',
   email: '',
@@ -188,7 +197,7 @@ const formData = ref({
   contactMethod: 'phone',
   message: '',
   agreeTerms: false,
-  submitButtonText: 'Send Your Message'
+  submitButtonText: 'Send Your Message',
 })
 
 const formFields = ref({
@@ -201,8 +210,12 @@ const formFields = ref({
   bathrooms: { label: 'No. of Bathrooms', placeholder: 'Select no. of Bathrooms' },
   bedrooms: { label: 'No. of Bedrooms', placeholder: 'Select no. of Bedrooms' },
   budget: { label: 'Budget', placeholder: 'Select Budget' },
-  contactMethod: { label: 'Preferred Contact Method', phone: 'Enter Your Number', email: 'Enter Your Email' },
-  message: { label: 'Message', placeholder: 'Enter your Message here..' }
+  contactMethod: {
+    label: 'Preferred Contact Method',
+    phone: 'Enter Your Number',
+    email: 'Enter Your Email',
+  },
+  message: { label: 'Message', placeholder: 'Enter your Message here..' },
 })
 
 const locations = ref(['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Miami'])
@@ -218,7 +231,7 @@ const handleSubmit = () => {
 <style scoped>
 .sell-property-container {
   position: relative;
-  overflow: hidden;
+  padding-bottom: 100px;
 }
 
 .header-section {
@@ -268,24 +281,28 @@ const handleSubmit = () => {
   font-family: inherit;
   width: 100%;
 }
+
 @media (max-width: 767px) {
   .col-sm-12 {
     flex: 0 0 100%;
     max-width: 100%;
   }
 }
+
 @media (max-width: 1024px) {
   .col-md-12 {
     flex: 0 0 100%;
     max-width: 100%;
   }
 }
+
 @media (max-width: 600px) {
   .col-md-6 {
     flex: 0 0 100%;
     max-width: 100%;
   }
 }
+
 .custom-input::placeholder,
 .custom-textarea::placeholder {
   color: rgba(255, 255, 255, 0.5);
@@ -358,8 +375,8 @@ const handleSubmit = () => {
 
 /* Only show the filled circle when selected */
 .radio-input:checked {
-  border-color: #703BF7;
-  background-color: #703BF7;
+  border-color: #703bf7;
+  background-color: #703bf7;
   box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.2);
 }
 
@@ -368,6 +385,7 @@ const handleSubmit = () => {
   opacity: 0;
   pointer-events: none;
 }
+
 .icon {
   font-size: 1.1rem;
 }
@@ -386,10 +404,12 @@ const handleSubmit = () => {
   appearance: none;
   border-radius: 20%;
 }
+
 .form-check-input:not(:checked) {
   background-color: transparent;
   border: 2px solid #a0a8c0;
 }
+
 .form-check-input:checked {
   border-color: #6495ff;
   background-color: #6495ff;
@@ -439,6 +459,7 @@ const handleSubmit = () => {
 .btn-submit:active {
   transform: translateY(0);
 }
+
 @media (max-width: 768px) {
   .form-title {
     font-size: 1.8rem;
@@ -447,7 +468,5 @@ const handleSubmit = () => {
   .property-form {
     padding: 25px;
   }
-
-
 }
 </style>

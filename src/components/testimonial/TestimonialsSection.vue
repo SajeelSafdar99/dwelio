@@ -1,5 +1,7 @@
 <template>
-  <section class="testimonials-section q-py-xl q-px-lg container">
+  <section class="testimonials-section" ref="target0">
+    <div class="q-py-xl q-px-lg container">
+
     <div class="testimonials-wrapper">
       <!-- LEFT SIDE -->
       <div class="testimonials-left">
@@ -71,18 +73,40 @@
         </div>
       </div>
     </div>
+    </div>
+
   </section>
 </template>
 
-<script setup></script>
-
+<script setup>
+import { shallowRef } from 'vue'
+const target0 = shallowRef(null)
+defineExpose({
+  target0,
+})
+</script>
 <style scoped>
 /* Section Container */
 .testimonials-section {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
+.testimonials-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../../assets/Serction-Hero.png?t=1758745798359');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(90px);
+  z-index: -1;
+}
+
 
 /* Card background */
 .testimonials-wrapper {
@@ -92,7 +116,6 @@
   border-radius: 30px;
   padding: 50px;
   width: 100%;
-  max-width: 1200px;
 
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.2);
@@ -400,23 +423,6 @@
 
 /* Even smaller screens (≤480px) */
 @media (max-width: 480px) {
-  .image-card,
-  .stat-box {
-    max-width: 260px;
-    padding: 12px;
-  }
-
-  .arrow-icon {
-    font-size: 1.4rem;
-    padding: 0.3rem;
-    right: 10px;
-    top: -8px;
-  }
-
-  .main-img {
-    max-width: 220px;
-  }
-
   .stat-box h3 {
     font-size: 2.4rem;
   }

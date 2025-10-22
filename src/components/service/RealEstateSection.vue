@@ -1,5 +1,5 @@
 <template>
-  <section class="real-estate">
+  <section class="real-estate" ref="target0">
     <div class="container">
       <div class="heading">
         <h2>Elevate Your Real Estate Experience</h2>
@@ -25,6 +25,8 @@
 <script setup>
 import { icons } from 'assets/icons/index.js'
 import IconBorder from 'components/IconBorder.vue'
+import { shallowRef } from 'vue'
+const target0 = shallowRef(null)
 
 const items = [
   { icon: icons.house, title: 'Find Your Dream Home' },
@@ -32,6 +34,9 @@ const items = [
   { icon: icons.building, title: 'Effortless Property Management' },
   { icon: icons.sun, title: 'Smart Investments, Decisions' },
 ]
+defineExpose({
+  target0,
+})
 </script>
 
 <style scoped>

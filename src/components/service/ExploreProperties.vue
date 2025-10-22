@@ -1,5 +1,29 @@
 <template>
-  <section class="cta-section text-white" :class="{ 'from-estate': fromEState }">
+  <section class="cta-section text-white" :class="{ 'from-estate': fromEState } ">
+    <BackgroundGlow
+      :ellipses="[
+    {
+      width: '300px',
+      height: '900px',
+      left: 'auto',
+      right: '1px',
+      top: '-70%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+    {
+      width: '300px',
+      height: '900px',
+      left: '1px',
+      right: 'auto',
+      top: '-70%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+  ]"
+    />
     <div class="container">
       <div class="cta-content">
         <div class="cta-text">
@@ -40,11 +64,17 @@
 </template>
 
 <script setup>
+import BackgroundGlow from 'components/BackgroundGlow.vue'
+import { shallowRef } from 'vue'
+const target4 = shallowRef(null)
 defineProps({
   fromEState: {
     type: Boolean,
     default: false,
   },
+})
+defineExpose({
+  target4,
 })
 </script>
 
@@ -53,8 +83,6 @@ defineProps({
   background: linear-gradient(90deg, rgba(60, 107, 254, 0.42) 0%, rgba(157, 132, 242, 0.54) 100%);
   padding: 3rem 0;
   position: relative;
-  overflow: hidden;
-  margin-top: 100px;
   transition: all 0.3s ease;
 }
 

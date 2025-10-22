@@ -1,5 +1,5 @@
 <template>
-  <section class="ready-section">
+  <section class="ready-section" ref="target4">
     <div class="container">
       <h2>Ready for Your Virtual Assistant Workforce?</h2>
       <p>From phone calls to content creation, let Aidee handle everything for you.</p>
@@ -20,7 +20,6 @@
 
 <style scoped>
 .ready-section {
-  position: relative;
  background-image: url("../../assets/assistance/ready/1.png");
   background-size: cover;
   background-position: center;
@@ -91,4 +90,9 @@ button.secondary:hover {
 </style>
 <script setup lang="ts">
 import { icons } from 'assets/icons/index.js'
+import { shallowRef } from 'vue'
+const target4 = shallowRef(null)
+defineExpose({
+    target4
+})
 </script>

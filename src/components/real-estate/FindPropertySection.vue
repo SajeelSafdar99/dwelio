@@ -1,5 +1,5 @@
 <template>
-  <div class="find-property-container">
+  <div ref="target0" class="find-property-container" >
     <div class="container">
       <!-- Header Section -->
       <div class="header-section">
@@ -101,8 +101,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
+import { ref, shallowRef } from 'vue'
+const target0 = shallowRef(null)
+defineExpose({
+  target0,
+})
 const sectionData = ref({
   title: 'Find Your Dream Property',
   description:
@@ -185,6 +188,7 @@ const handleSearch = () => {
   })
   alert('Search initiated! Check console for details.')
 }
+
 </script>
 
 <style scoped>

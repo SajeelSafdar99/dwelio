@@ -1,5 +1,5 @@
 <template>
-  <section class="hero-section">
+  <section class="hero-section" ref="target0">
     <div class="hero-content">
       <h1 class="hero-title">
         Professional Virtual Assistance <br />
@@ -33,7 +33,12 @@
 </template>
 
 <script setup>
-// no logic needed for static hero
+import {  shallowRef } from 'vue'
+
+const target0 =shallowRef(null)
+defineExpose({
+  target0,
+})
 </script>
 
 <style scoped>

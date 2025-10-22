@@ -1,5 +1,40 @@
 <template>
-  <div class="main-page-wrapper">
+  <FloatingImages :configs="floatingImageConfigs" :sections="sections" />
+  <div class="main-page-wrapper" ref="mainRef" >
+    <BackgroundGlow
+      :ellipses="[
+    {
+      width: '300px',
+      height: '500px',
+      left: 'auto',
+      right: '1px',
+      top: '70%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+    {
+      width: '300px',
+      height: '500px',
+      left: '1px',
+      right: 'auto',
+      top: '70%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+        {
+      width: '300px',
+      height: '500px',
+      left: '1px',
+      right: 'auto',
+      top: '30%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+  ]"
+    />
     <div class="container">
       <HeaderBar
         :active-view="activeView"
@@ -48,10 +83,18 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, nextTick, onUnmounted } from 'vue'
 import FilterSidebar from 'components/listing/FilterSidebar.vue'
 import HeaderBar from 'components/listing/HeaderBar.vue'
 import ResultsGrid from 'components/listing/ResultsGrid.vue'
+import BackgroundGlow from 'components/BackgroundGlow.vue'
+import { shallowRef } from 'vue'
+import FloatingImages from 'components/home/FloatingImages.vue'
+import Lenis from '@studio-freight/lenis'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+const mainRef = shallowRef(null)
+
 
 const minRange = ref(100000);
 const maxRange = ref(1500000);
@@ -223,17 +266,98 @@ const filteredItems = computed(() => {
 
   return items;
 });
-</script>
+let lenisInstance = null
+let rafFunction = null
+const sections = computed(() => [
+  { name: 'target0', ref: mainRef},
+]);
+const floatingImageConfigs = Object.freeze({
+  image1: Object.freeze({
+    target0: Object.freeze({ right: '100px', top: '80px', scale: 1.2, opacity: 0.85, rotation: 8, visible: true, blur: '3px' }),
+  }),
+  image2: Object.freeze({
+    target0: Object.freeze({ top: '1050px', right: '200px', scale: 1.8, opacity: 0.5, rotation: 12, visible: true, blur: '6px' }),
+  }),
+  image3: Object.freeze({
+    target0: Object.freeze({
+      left: '50px',
+      top: '50px',
+      scale: 0.1,
+      opacity: 0,
+      rotation: 0,
+      visible: false,
+      blur: '0px',
+    }),
+  }),
+  image4: Object.freeze({
+    target0: Object.freeze({ left: '-300px', top: '120px', scale: 0.9, opacity: 0.8, rotation: 3, visible: true, blur: '8px' }),
+  }),
+});
+onMounted(() => {
+  nextTick(() => {
+    lenisInstance = new Lenis({
+      duration: 1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false
+    })
 
+    rafFunction = (time) => {
+      if (lenisInstance) {
+        lenisInstance.raf(time * 1000)
+      }
+    }
+
+    gsap.ticker.add(rafFunction)
+    gsap.ticker.lagSmoothing(0)
+
+    lenisInstance.on('scroll', ScrollTrigger.update)
+
+    setTimeout(() => {
+      ScrollTrigger.refresh()
+      console.log('Sections status:', sections.value.map(s => ({ name: s.name, element: !!s.ref })))
+    }, 100)
+  })
+})
+
+onUnmounted(() => {
+  if (rafFunction) {
+    gsap.ticker.remove(rafFunction)
+    rafFunction = null
+  }
+
+  if (lenisInstance) {
+    lenisInstance.destroy()
+    lenisInstance = null
+  }
+
+  ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+})
+
+</script>
 <style>
 
 .main-page-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  margin: 100px 0;
+  padding: 100px 0;
+  position: relative;
 }
-
+.main-page-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/flower.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(90px);
+  z-index: -1;
+}
 
 .main-content-area {
   display: flex;

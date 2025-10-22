@@ -1,5 +1,18 @@
 <template>
-  <section class="choose-section">
+  <section class="choose-section" ref="target4">
+    <BackgroundGlow
+      :ellipses="[
+        {
+          width: '300px',
+          height: '500px',
+          bottom: '-20%',
+          right: '40%',
+          gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+          opacity: 0.3,
+          blur: 'blur(80px)',
+        },
+      ]"
+    />
     <div class="container">
       <div class="choose-grid">
         <!-- Left: Images -->
@@ -20,8 +33,8 @@
           <div>
             <h2 class="choose-title">Why Choose Us?</h2>
             <p class="choose-subtitle">
-              Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-              suscipit laboriosam, nisi ut aliquid.
+              Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit
+              laboriosam, nisi ut aliquid.
             </p>
           </div>
           <ul class="choose-list">
@@ -42,11 +55,17 @@
 </template>
 
 <script setup>
+import BackgroundGlow from 'components/BackgroundGlow.vue'
+import { shallowRef } from 'vue'
+const target4 = shallowRef(null)
+defineExpose({
+  target4,
+})
 const images = [
-  '/src/assets/about/choose/1.png',
-  '/src/assets/about/choose/2.png',
-  '/src/assets/about/choose/3.png',
-];
+  new URL('/src/assets/about/choose/1.png', import.meta.url).href,
+  new URL('/src/assets/about/choose/2.png', import.meta.url).href,
+  new URL('/src/assets/about/choose/3.png', import.meta.url).href,
+]
 
 const points = [
   {
@@ -61,25 +80,24 @@ const points = [
     title: 'Comprehensive Programs',
     desc: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid.',
   },
-];
+]
 </script>
 
 <style scoped>
-
-
 /* Section spacing (vertical) */
 .choose-section {
   background: transparent;
   color: #ffffff;
-  padding-top: 96px;   /* equivalent of large vertical spacing */
+  padding-top: 96px; /* equivalent of large vertical spacing */
   padding-bottom: 80px;
+  position: relative;
 }
 
 /* ---------- Grid layout ---------- */
 .choose-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;           /* custom gap between columns */
+  gap: 40px; /* custom gap between columns */
 }
 
 @media (max-width: 992px) {
@@ -105,7 +123,9 @@ const points = [
 
 /* Adjust heights on larger screens if you want */
 @media (min-width: 1200px) {
-  .choose-img { height: 240px; }
+  .choose-img {
+    height: 240px;
+  }
 }
 
 /* ---------- Right column (content) ---------- */
@@ -120,7 +140,7 @@ const points = [
   font-size: 36px;
   line-height: 1.05;
   font-weight: 700;
-  margin: 0 0 12px 0;   /* margin-bottom */
+  margin: 0 0 12px 0; /* margin-bottom */
 }
 
 .choose-subtitle {
@@ -139,7 +159,7 @@ const points = [
 
 .choose-item {
   display: flex;
-  gap: 14px;            /* horizontal gap between icon and text */
+  gap: 14px; /* horizontal gap between icon and text */
   align-items: flex-start;
   margin-bottom: 18px;
 }
@@ -148,8 +168,8 @@ const points = [
 .choose-icon {
   width: 36px;
   height: 36px;
-  background: #ffffff;      /* white background */
-  color: #0b0b12;           /* dark tick color for contrast */
+  background: #ffffff; /* white background */
+  color: #0b0b12; /* dark tick color for contrast */
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -180,25 +200,49 @@ const points = [
   background: #ffffff;
   color: #0b0b12;
   border: none;
-  padding: 10px 22px;   /* custom padding */
+  padding: 10px 22px; /* custom padding */
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform .14s ease, box-shadow .14s ease;
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.14s ease;
   width: 180px;
 }
 
 .choose-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
 }
 
 @media (max-width: 576px) {
-  .choose-title { font-size: 28px; }
-  .choose-subtitle { font-size: 14px; margin-bottom: 20px; }
-  .choose-img { height: 160px; border-radius: 14px; }
-  .choose-icon { width: 30px; height: 30px; font-size: 14px; }
-  .choose-item { gap: 10px; margin-bottom: 14px; }
-  .choose-right { max-width: 100%; }
+  .choose-title {
+    font-size: 28px;
+  }
+
+  .choose-subtitle {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .choose-img {
+    height: 160px;
+    border-radius: 14px;
+  }
+
+  .choose-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .choose-item {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .choose-right {
+    max-width: 100%;
+  }
 }
 </style>

@@ -1,5 +1,31 @@
 <template>
-  <section class="pricing-section">
+  <section class="pricing-section" ref="target3">
+    <BackgroundGlow
+      :ellipses="[
+    {
+      width: '300px',
+      height: '900px',
+      left: 'auto',
+      right: '1px',
+      top: '70%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+    {
+      width: '300px',
+      height: '900px',
+      left: '1px',
+      right: 'auto',
+      top: '70%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+  ]"
+    />
+
+
     <div class="pricing-container container">
       <!-- Header -->
       <div class="pricing-header">
@@ -47,7 +73,12 @@
 
 <script setup>
 import { icons } from 'assets/icons/index.js'
-
+import BackgroundGlow from 'components/BackgroundGlow.vue'
+import { shallowRef } from 'vue'
+const target3 = shallowRef(null)
+defineExpose({
+  target3,
+})
 const plans = [
   {
     name: 'Free',
@@ -112,12 +143,13 @@ const plans = [
   display: flex;
   justify-content: center;
   color: #fff;
-
+position: relative;
   margin: 48px auto;
 }
 
+
 .pricing-container {
-  padding: 50px 100px;
+  padding: 50px;
   display: flex;
   flex-direction: column;
   gap: 4rem;

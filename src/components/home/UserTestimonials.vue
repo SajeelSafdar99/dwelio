@@ -1,5 +1,29 @@
 <template>
-  <section class="testimonials-section" ref="target3">
+  <section class="testimonials-section" ref="target3" id="user-testimonial">
+    <BackgroundGlow
+      :ellipses="[
+    {
+      width: '300px',
+      height: '500px',
+      left: 'auto',
+      right: '1px',
+      top: '-20%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+    {
+      width: '300px',
+      height: '500px',
+      left: '1px',
+      right: 'auto',
+      top: '70%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+  ]"
+    />
     <div class="container">
       <div class="testimonials-header">
         <div class="testimonials-title-wrapper">
@@ -55,6 +79,7 @@
 <script setup>
 import { ref, shallowRef } from 'vue'
 import { gsap } from 'gsap'
+import BackgroundGlow from 'components/BackgroundGlow.vue'
 
 const target3 = shallowRef(null)
 const carouselContainer = shallowRef(null)
@@ -65,7 +90,9 @@ const totalSlides = 4
 
 const testLogos = import.meta.glob('/src/assets/home/test logos/*.{png,jpg,jpeg,svg}', { eager: true })
 const testImages = Object.values(testLogos).map((module) => module.default)
-
+defineProps({
+  fromTestimonials: { type: Boolean, required: false, default: false },
+})
 const testimonials = [
   {
     text: "Highly responsive with keen attention to detail. Assisted in building my e-commerce platform, mapping transformative areas, resulting in exceptional customer experience.",
@@ -330,6 +357,7 @@ defineExpose({
     flex-direction: column;
     gap: 2rem;
     text-align: center;
+    align-items: center;
   }
 
   .testimonials-nav {

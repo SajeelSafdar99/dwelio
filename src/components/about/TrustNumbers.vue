@@ -1,5 +1,39 @@
 <template>
-  <section class="trust-section">
+  <section class="trust-section" ref="target3">
+    <BackgroundGlow
+      :ellipses="[
+    {
+      width: '300px',
+      height: '500px',
+      left: 'auto',
+      right: '1px',
+      top: '70%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+    {
+      width: '300px',
+      height: '500px',
+      left: '1px',
+      right: 'auto',
+      top: '70%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+        {
+      width: '300px',
+      height: '500px',
+      left: '1px',
+      right: 'auto',
+      top: '1%',
+      gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+      opacity: 0.3,
+      blur: 'blur(80px)',
+    },
+  ]"
+    />
     <div class="container text-center">
       <h2 class="trust-title">TRUST BACKED BY NUMBERS</h2>
       <p class="trust-subtitle">
@@ -23,7 +57,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted,shallowRef } from "vue";
+const target3 = shallowRef(null)
+defineExpose({
+  target3,
+})
+import BackgroundGlow from 'components/BackgroundGlow.vue'
 
 const stats = [
   { value: 200, suffix: "%", label: "Revenue Growth" },
@@ -77,7 +116,6 @@ onMounted(() => {
   color: white;
   text-align: center;
   padding: 6rem 1.5rem 10rem;
-  overflow: hidden;
 }
 
 /* Title & subtitle */

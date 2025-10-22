@@ -1,58 +1,133 @@
 <template>
-  <div class="about-wrapper q-pa-md container">
-    <div class="about-bg">
-      <div class="about-overlay"></div>
-    </div>
+  <section class="about-section" ref="target0">
+    <BackgroundGlow
+      :ellipses="[
+        {
+          width: '300px',
+          height: '300px',
+          right: '1px',
+          top: '50%',
+          gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+          opacity: 0.3,
+          blur: 'blur(80px)',
+        },
+        {
+          width: '300px',
+          height: '300px',
+          left: '1px',
+          top: '70%',
+          gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+          opacity: 0.3,
+          blur: 'blur(80px)',
+        },
+        {
+          width: '300px',
+          height: '300px',
+          right: '40%',
+          gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+          opacity: 0.3,
+          blur: 'blur(80px)',
+        },
+          {
+          width: '300px',
+          height: '300px',
+          left: '1px',
+          top: '20%',
+          gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+          opacity: 0.3,
+          blur: 'blur(80px)',
+        },
+          {
+          width: '300px',
+          height: '300px',
+          left: '1px',
+          top: '1%',
+          gradient: 'linear-gradient(0deg, #4D54E8, #4D54E8)',
+          opacity: 0.3,
+          blur: 'blur(80px)',
+        },
+      ]"
+    />
 
-    <div class="about-content">
-      <h2 class="about-title">OUR STORY</h2>
-      <p class="about-text">
-        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-        consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui
-        dolorem eum fugiat quo voluptas nulla pariatur?
-      </p>
-      <p class="about-text">
-        At vero eos et accusamus et iusto odio dignissimos ducimus ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-        suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
-        quam nihil molestiae consequatur?
-      </p>
-      <p class="about-text">
-        At vero eos et accusamus et iusto odio dignissimos ducimus ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-        suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
-        quam nihil molestiae consequatur?
-      </p>
+    <div class="about-wrapper q-pa-md container">
+      <div class="about-bg">
+        <div class="about-overlay"></div>
+      </div>
+
+      <div class="about-content">
+        <h2 class="about-title">OUR STORY</h2>
+        <p class="about-text">
+          Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
+          nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea
+          voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat
+          quo voluptas nulla pariatur?
+        </p>
+        <p class="about-text">
+          At vero eos et accusamus et iusto odio dignissimos ducimus ut enim ad minima veniam, quis
+          nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+          consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam
+          nihil molestiae consequatur?
+        </p>
+        <p class="about-text">
+          At vero eos et accusamus et iusto odio dignissimos ducimus ut enim ad minima veniam, quis
+          nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+          consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam
+          nihil molestiae consequatur?
+        </p>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
 // no script logic needed
+import BackgroundGlow from 'components/BackgroundGlow.vue'
+import { shallowRef } from 'vue'
+const target0 = shallowRef(null)
+defineExpose({
+  target0,
+})
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap');
-
+.about-section {
+  position: relative;
+  width: 100%;
+  padding: 80px 0;
+  overflow: visible;
+}
+.about-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../../assets/flower.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(90px);
+  z-index: -1;
+}
 .about-wrapper {
   position: relative;
+  z-index: 2;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   min-height: 571px;
-  background-color: #7e2148;
   border-radius: 36px;
-  overflow: hidden;
+  background: #7E2148;
 }
 
 .about-bg {
   position: absolute;
   inset: 0;
-  background-image: url("../../assets/about/stories/1.png");
+  background-image: url('../../assets/about/stories/1.png');
   background-size: cover;
   background-position: center;
   mix-blend-mode: color-dodge;
   border-radius: inherit;
-  z-index: 0;
+  z-index: 1;
 }
 
 .about-overlay {
@@ -60,12 +135,13 @@
   inset: 0;
   background: rgba(20, 21, 23, 0.78);
   border-radius: inherit;
-  z-index: 1;
+  z-index: 2;
+  filter: blur(20px);
 }
 
 .about-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   justify-content: center;

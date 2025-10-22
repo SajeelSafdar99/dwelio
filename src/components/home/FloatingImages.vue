@@ -7,7 +7,7 @@
     :style="{
       position: 'fixed',
       mixBlendMode: index === 3 ? 'plus-lighter' : 'normal',
-      zIndex: 0,
+      zIndex: -999,
       pointerEvents: 'none',
     }"
   >
@@ -51,7 +51,7 @@ const imageKeys = computed(() => Object.keys(props.configs))
 const animateFloatingImagesToTarget = (targetName) => {
   if (lastTargetName === targetName) return
   lastTargetName = targetName
-
+console.log(targetName)
   imageKeys.value.forEach((imageKey, index) => {
     const config = props.configs[imageKey][targetName]
     if (!config) return
@@ -110,21 +110,21 @@ const animateFloatingImagesToTarget = (targetName) => {
 
 const setupScrollTriggers = () => {
   const sectionOrder = props.sections.map(s => s.name)
-
   props.sections.forEach((section, index) => {
     const refOrEl = section.ref
     const sectionEl =
       refOrEl?.value?.$el ||
       refOrEl?.value ||
       refOrEl?.$el ||
-      refOrEl
+      refOrEl ||
+      document.getElementById(section.name)
 
     if (!sectionEl) return
 
     ScrollTrigger.create({
       trigger: sectionEl,
-      start: 'top center',
-      end: 'bottom center',
+      start: 'top 10%',
+      end: 'bottom 30%',
       onEnter: () => {
         const currentIndex = sectionOrder.indexOf(lastTargetName)
         if (currentIndex === -1 || index > currentIndex) {
@@ -157,9 +157,8 @@ onMounted(() => {
 
   nextTick(() => {
     floatingImageRefs.value.forEach((el, index) => {
-      const config = props.configs[`image${index+1}`]?.heroSection
+      const config = props.configs[`image${index+1}`]?.heroSection || props.configs[`image${index+1}`]?.target0
       if (!config || !el) return
-
       if (config.left !== undefined) {
         el.style.left = config.left
         el.style.right = 'auto'
@@ -186,7 +185,6 @@ onMounted(() => {
 
       el.style.display = config.visible ? 'block' : 'none'
     })
-
     setupScrollTriggers()
   })
 })

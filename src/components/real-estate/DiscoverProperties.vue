@@ -1,5 +1,5 @@
 <template>
-  <div class="discover-properties-container">
+  <div class="discover-properties-container" ref="target1">
     <div class="container">
       <div class="header-section mb-5">
         <h1 class="section-title">{{ sectionData.title }}</h1>
@@ -82,7 +82,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
+const target1 = shallowRef(null)
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -92,7 +93,9 @@ import 'swiper/css/pagination'
 const swiperRef = ref(null)
 const swiperInstance = ref(null)
 const currentSlide = ref(0)
-
+defineExpose({
+  target1
+})
 const sectionData = ref({
   title: 'Discover a World of Possibilities',
   description:
@@ -104,7 +107,7 @@ const properties = ref([
     id: 1,
     name: 'Seaside Serenity Villa',
     category: 'Coastal Escapes - Where Waves Beckon',
-    image: '/src/assets/real-estate/1.png',
+    image: new URL('/src/assets/real-estate/1.png', import.meta.url).href,
     description: 'Wake up to the soothing melody of waves. This beachfront villa offers...',
     price: '$1,250,000',
   },
@@ -112,81 +115,72 @@ const properties = ref([
     id: 2,
     name: 'Metropolitan Haven',
     category: 'Urban Oasis - Life in the Heart of the City',
-    image: '/src/assets/real-estate/2.png',
-    description:
-      'Immerse yourself in the energy of the city. This modern apartment in the heart...',
+    image: new URL('/src/assets/real-estate/2.png', import.meta.url).href,
+    description: 'Immerse yourself in the energy of the city. This modern apartment in the heart...',
     price: '$650,000',
   },
   {
     id: 3,
     name: 'Rustic Retreat Cottage',
     category: "Countryside Charm - Escape to Nature's Embrace",
-    image: '/src/assets/real-estate/3.png',
-    description:
-      'Find tranquility in the countryside. This charming cottage is nestled amidst rolling hills...',
+    image: new URL('/src/assets/real-estate/3.png', import.meta.url).href,
+    description: 'Find tranquility in the countryside. This charming cottage is nestled amidst rolling hills...',
     price: '$350,000',
   },
   {
     id: 4,
     name: 'Mountain Peak Estate',
     category: 'Alpine Luxury - Touch the Sky',
-    image: '/src/assets/real-estate/1.png',
-    description:
-      'Experience breathtaking views from this stunning mountain estate with panoramic vistas...',
+    image: new URL('/src/assets/real-estate/1.png', import.meta.url).href,
+    description: 'Experience breathtaking views from this stunning mountain estate with panoramic vistas...',
     price: '$2,100,000',
   },
   {
     id: 5,
     name: 'Desert Oasis Manor',
     category: 'Desert Living - Luxury in Solitude',
-    image: '/src/assets/real-estate/2.png',
-    description:
-      'Discover exclusive desert living with this magnificent manor featuring modern amenities...',
+    image: new URL('/src/assets/real-estate/2.png', import.meta.url).href,
+    description: 'Discover exclusive desert living with this magnificent manor featuring modern amenities...',
     price: '$1,800,000',
   },
   {
     id: 6,
     name: 'Lakeside Paradise',
     category: 'Waterfront Bliss - Serene Lakeside Living',
-    image: '/src/assets/real-estate/3.png',
-    description:
-      'Enjoy peaceful lakeside living with private beach access and stunning water views...',
+    image: new URL('/src/assets/real-estate/3.png', import.meta.url).href,
+    description: 'Enjoy peaceful lakeside living with private beach access and stunning water views...',
     price: '$950,000',
   },
   {
     id: 7,
     name: 'Historic Manor House',
     category: 'Heritage Homes - Timeless Elegance',
-    image: '/src/assets/real-estate/1.png',
-    description:
-      'Own a piece of history with this beautifully restored historic manor featuring original details...',
+    image: new URL('/src/assets/real-estate/1.png', import.meta.url).href,
+    description: 'Own a piece of history with this beautifully restored historic manor featuring original details...',
     price: '$1,500,000',
   },
   {
     id: 8,
     name: 'Modern Minimalist Loft',
     category: 'Contemporary Design - Urban Sophistication',
-    image: '/src/assets/real-estate/2.png',
-    description:
-      'Experience cutting-edge design in this sleek minimalist loft with open floor plans...',
+    image: new URL('/src/assets/real-estate/2.png', import.meta.url).href,
+    description: 'Experience cutting-edge design in this sleek minimalist loft with open floor plans...',
     price: '$750,000',
   },
   {
     id: 9,
     name: 'Tropical Island Villa',
     category: 'Island Paradise - Exotic Getaway',
-    image: '/src/assets/real-estate/3.png',
-    description:
-      'Escape to paradise with this exclusive island villa featuring private access and luxury amenities...',
+    image: new URL('/src/assets/real-estate/3.png', import.meta.url).href,
+    description: 'Escape to paradise with this exclusive island villa featuring private access and luxury amenities...',
     price: '$3,200,000',
   },
   {
     id: 10,
     name: 'Vineyard Estate',
     category: 'Wine Country - Rustic Sophistication',
-    image: '/src/assets/real-estate/1.png',
-    description:
-      'Own your own vineyard estate with this sprawling property perfect for wine enthusiasts...',
+    image: new URL('/src/assets/real-estate/1.png', import.meta.url).href,
+    description: 'Own your own vineyard estate with this sprawling property perfect for wine enthusiasts...',
     price: '$2,500,000',
   },
 ])
@@ -213,6 +207,21 @@ const onSlideChange = (swiper) => {
   position: relative;
   overflow: hidden;
   padding: 60px 0;
+}
+.discover-properties-container::before {
+  position: absolute;
+  content: '';
+  background-image: url('../../assets/flower.png');
+  background-size: 40%;
+  background-position: center;
+  background-repeat: no-repeat;
+  top: -30%;
+  left: 10%;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  z-index: -1;
+  filter: blur(60px);
 }
 
 .header-section {

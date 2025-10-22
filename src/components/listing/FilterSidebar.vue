@@ -400,7 +400,6 @@ const rangeFillStyle = computed(() => {
   border-radius: 0.75rem;
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
-  margin-top: 82px;
 }
 
 .filter-card p {

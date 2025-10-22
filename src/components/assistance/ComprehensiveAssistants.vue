@@ -1,5 +1,5 @@
 <template>
-  <section class="assistants-section">
+  <section class="assistants-section" ref="target1">
     <div class="assistants-header">
       <h2 class="assistants-title">Comprehensive Virtual Assistants</h2>
       <p class="assistants-subtitle">
@@ -29,6 +29,12 @@
 </template>
 
 <script setup>
+import { shallowRef } from 'vue'
+
+const target1 = shallowRef(null)
+defineExpose({
+  target1,
+})
 const assistants = [
   {
     icon: "fa-solid fa-pen-nib",
@@ -73,6 +79,23 @@ const assistants = [
   color: white;
   text-align: center;
   padding: 0rem 0rem 5rem;
+
+}
+.assistants-section::before {
+  content: '';
+  position: absolute;
+  top: 300px; /* overlap previous section */
+  left: 0;
+  right: 0;
+  height: 600px;
+  background-image: url('../../assets/flower.png');
+  background-size: contain;
+  background-position: center top;
+  background-repeat: no-repeat;
+  z-index: -1;
+  filter: blur(10px); /* optional smooth transition */
+  opacity: 0.9;
+  mix-blend-mode: plus-lighter;
 }
 
 .assistants-header {

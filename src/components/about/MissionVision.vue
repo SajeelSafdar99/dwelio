@@ -1,5 +1,5 @@
 <template>
-  <section class="mission-vision-wrapper q-py-xl q-px-lg">
+  <section class="mission-vision-wrapper q-py-xl q-px-lg" ref="target1">
     <div class="mission-vision-container row q-col-gutter-xl items-start justify-center">
       <!-- OUR MISSION -->
       <div class="col-12 col-md-5 card-section">
@@ -44,7 +44,13 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { shallowRef } from 'vue'
+const target1 = shallowRef(null)
+defineExpose({
+  target1,
+})
+</script>
 
 <style scoped>
 .mission-vision-wrapper {

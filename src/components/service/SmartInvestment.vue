@@ -1,8 +1,7 @@
 <template>
-  <section class="property-section text-white">
+  <section class="property-section text-white" ref="target3">
     <div class="container">
       <div class="row q-col-gutter-y-xl">
-        <!-- Left Column: 2 stacked cards -->
         <div class="col-lg-4 col-md-12">
           <div v-for="(card, i) in leftCards" :key="i" class="q-mb-lg q-mr-xl" :class="card.class">
             <h3 class="card-title">{{ card.title }}</h3>
@@ -38,13 +37,12 @@
 
 <style scoped>
 .property-section {
-  padding-block: 8rem 0;
+  padding: 8rem 0;
 }
 
 .custom-grid {
   background: rgba(20, 21, 23, 0.54);
   backdrop-filter: blur(10px);
-  padding: 0.5rem;
   border-radius: 12px;
 }
 
@@ -120,12 +118,18 @@
   transition: all 0.3s ease;
   width: 100%;
 }
+@media (max-width: 1440px) {
+  .q-mr-xl{
+    margin-right: 0 !important;
+  }
+}
 </style>
 
 <script setup>
 import IconBorder from 'components/IconBorder.vue'
 import { icons } from 'assets/icons/index.js'
-
+import { shallowRef } from 'vue'
+const target3 = shallowRef(null)
 const leftCards = [
   {
     title: 'Smart Investments, Informed Decisions',
@@ -163,5 +167,8 @@ const rightCards = [
     text: 'Diversify your real estate portfolio effectively. Our experts guide you in spreading your investments across various property types and locations',
   },
 ]
+defineExpose({
+  target3,
+})
 </script>
 
