@@ -1,0 +1,69 @@
+// app global css in SCSS form
+@import "@quasar/extras/fontawesome-v6/fontawesome-v6.css";
+@import "@quasar/extras/fontawesome-v5/fontawesome-v5.css";
+@import "@quasar/extras/material-icons/material-icons.css";
+@import "@quasar/extras/mdi-v6/mdi-v6.css";
+@import "@quasar/extras/eva-icons/eva-icons.css";
+@import "@quasar/extras/roboto-font/roboto-font.css";
+@import "fontawesome-free/css/all.min.css";
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Optional: set max widths per breakpoint (like Bootstrap) */
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+}
+body{
+  font-family: 'Sora', sans-serif;
+  background-color: #151A2C;
+  background-image: url('../assets/texture.png'); /* small seamless grain */
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+}
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
